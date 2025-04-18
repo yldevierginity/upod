@@ -1,9 +1,16 @@
 from django.shortcuts import render, redirect
-from .forms import ReservationDetailsForm, ReservationRoomDetailsForm, ReservationStatusLogForm, AttendeeFormSet
-from .models import ReservationDetails, ReservationRoomDetails, ReservationStatusLog, AttendeeList #only AttendeeList is actually used, may need to erase the others later
-                                                                                                   #as they are already implicity called via the forms
+from .forms import ReservationRoomDetailsForm, AttendeeFormSet
+from .models import ReservationDetails, ReservationStatusLog, AttendeeList
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 
 # Create your views here.
+
+def add_attendee_form(request):
+    formset = AttendeeFormSet()
+    form = formset.empty_form
+    form_html = render_to_string("partials/attendee_form.html", {'form': form})
+    return HttpResponse(form_html)
 
 # ReservationDetails holds ReservationRoomDetails and ReservationStatusLog
 # ReservationRoomDetails holds AttendeeList
@@ -14,11 +21,9 @@ def create_reservation(request):
         #Create form instances
         attendees_formset = AttendeeFormSet(request.POST)
         roomdetails_form = ReservationRoomDetailsForm(request.POST)
-        status_form = ReservationStatusLogForm(request.POST)
-        reservation_form = ReservationDetailsForm(request.POST)
 
         #form validation check
-        if attendees_formset.is_valid() and roomdetails_form.is_valid() and status_form.is_valid() and reservation_form.is_valid():
+        if attendees_formset.is_valid() and roomdetails_form.is_valid():
             
             #start with AttendeeList and attendees first, contextualized via the formset
             attendee_list = AttendeeList.objects.create() #instantiate the list of attendees
@@ -30,18 +35,19 @@ def create_reservation(request):
             room_details.attendee_list = attendee_list #attach recently saved attendees_formset now named attendee_list
             room_details.save()
 
-            #save the status log as well
-            status_log = status_form.save() #I don't know why we must instantiate the save into status_log, but might as well. It still saves it anyway
+            #instantiate status log
+            status_log = ReservationStatusLog.objects.create() #I don't know why we must instantiate the save into status_log, but might as well. It still saves it anyway
+                                                               #every field in this is either intentionally defaulted as null or defaulted as a certain value, no need to save
 
             #reservation details can now be saved with children to be attached
-            reservation_details = reservation_form.save(commit=False)
-            reservation_details.reservation_status_log = status_log
-            reservation_details.reservation_room_details = room_details
 
             #I don't know the details of how users are going to be handled yet so I will comment this part for now
-            # reservation_details.organizer = ??? definitely not request.user due to potential manually made user entity
-
-            reservation_details.save()
+            #organizer = ??? definitely not request.user due to potential manually made user entity
+            reservation_details = ReservationDetails.objects.create(
+                reservation_status_log=status_log,
+                reservation_room_details=room_details,
+                #organizer=organizer, #handled later when user has been finalized
+            )            
 
             return redirect('reservation_success')
         
@@ -49,12 +55,8 @@ def create_reservation(request):
         #initialize the forms
         attendees_formset = AttendeeFormSet()
         roomdetails_form = ReservationRoomDetailsForm()
-        status_form = ReservationStatusLogForm()
-        reservation_form = ReservationDetailsForm()
 
-    return render(request, 'reservationpage_tobenamedproperlylater.html', {
+    return render(request, 'reservation.html', {
         'attendees_formset': attendees_formset,
         'roomdetails_form': roomdetails_form,
-        'status_form': status_form,
-        'reservation_form': reservation_form
     })
