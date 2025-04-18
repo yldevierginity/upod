@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory
 from .models import (
-    ReservationDetails, ReservationRoomDetails, ReservationStatusLog, AttendeeList, Attendee
+    ReservationRoomDetails, AttendeeList, Attendee
 )
 
 #The relatively 'normal' forms
@@ -9,16 +9,12 @@ from .models import (
 class ReservationRoomDetailsForm(forms.ModelForm):
     class Meta:
         model = ReservationRoomDetails
-        exclude = ['attendee_list'] #This is a foreign key entity that is not meant to have fields as django implicitly handles it based on the one to one
+        exclude = ['attendee_list'] #This is a OneToOne related entity that is not meant to have fields as django implicitly handles it based on the one to one
                                     #and one to many from Attendee and ReservationRoomDetails
 
-class ReservationStatusLogForm(forms.ModelForm):
-    class Meta:
-        model = ReservationStatusLog
+#Form for status log unnecessary as it only needs to be created during reservation submission then modified later via buttons by admin
 
-class ReservationDetailsForm(forms.ModelForm):
-    class Meta:
-        model = ReservationDetails
+#Form for rerservation details also unnecessary
 
 
 #The part of the forms that require dynamic adding of stuff; apparently requires formset
@@ -26,7 +22,7 @@ class ReservationDetailsForm(forms.ModelForm):
 class AttendeeForm(forms.ModelForm):
     class Meta:
         model = Attendee
-        exclude = ['attendee_list'] #same reason as with ReservationRoomDetails; also, Django apparently has a builtin reverse query function so that's that
+        exclude = ['attendee_list'] #same reason as with ReservationRoomDetails, but this time foreign key; also, Django apparently has a builtin reverse query function so that's that
 
 #If I understand properly, this allows AttendeeList to hold multiple values of Attendee given the parent child relationship they have.
 AttendeeFormSet = inlineformset_factory(
