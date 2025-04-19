@@ -1,84 +1,58 @@
-{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Create Reservation</title>
-  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Form</title>
 </head>
 <body>
-  <h1>Create Reservation</h1>
+    <h1>Create a Reservation</h1>
 
-  <form method="post">
-    {% csrf_token %}
+    <!-- Display success or error messages -->
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-    <!-- Reservation Room Details -->
-    <fieldset>
-      <legend>Room Details</legend>
-      {{ roomdetails_form.as_p }}
-    </fieldset>
-
-    <!-- Attendees Section -->
-    <fieldset>
-      <legend>Attendees</legend>
-      <div id="attendee-formset">
-        {% for form in attendees_formset %}
-          <div class="attendee-form">
-            {{ form.as_p }}
-            <!-- Add a delete button for each form in formset to be able to cancel-->
-             <button type="button" class="delete-attendee" data-form-id="{{ form.prefix }}">Delete</button>
-          </div>
-        {% endfor %}
-      </div>
-
-      <!-- Management form (hidden but crucial for Django to know formset state) -->
-      {{ attendees_formset.management_form }}
-
-      <!-- Button to add attendee -->
-      <button type="button"
-              hx-get="{% url 'add_attendee_form' %}"
-              hx-target="#attendee-formset"
-              hx-swap="beforeend">
-        Add Attendee
-      </button>
-    </fieldset>
-
-    <button type="submit">Submit Reservation</button>
-  </form>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Handle adding a new attendee form dynamically via HTMX
-      document.querySelector('button[type="button"]').addEventListener('click', function() {
-        const formCount = document.querySelectorAll('#attendee-formset .attendee-form').length;
-        const newFormIndex = formCount + 1;
+    <form method="POST">
+        {% csrf_token %}
         
-        // Update the formset management form's TOTAL_FORMS value
-        document.querySelector('#id_attendee_form-TOTAL_FORMS').value = newFormIndex;
+        <!-- Attendee Formset -->
+        <fieldset>
+            <legend>Attendee Information</legend>
+            {{ attendees_formset.management_form }}
+            <div>
+                {% for form in attendees_formset %}
+                    <div>
+                        <label for="{{ form.user.id_for_label }}">User:</label>
+                        {{ form.user }}
+                        {% if form.errors %}
+                            <div style="color:red;">
+                                {% for error in form.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </fieldset>
 
-        // Add a new attendee form at the end
-        fetch("{% url 'add_attendee_form' %}")
-          .then(response => response.text())
-          .then(newFormHtml => {
-            const formContainer = document.querySelector('#attendee-formset');
-            formContainer.insertAdjacentHTML('beforeend', newFormHtml);
-          });
-      });
+        <!-- If you plan to use room details form, you can add it here -->
+        {% comment %} {# 
+        <fieldset>
+            <legend>Room Details</legend>
+            {{ roomdetails_form.as_p }}
+        </fieldset>
+        #} {% endcomment %}
 
-      // Handle deleting individually added attendee form
-      document.addEventListener('click', function(event) {
-        if (event.target && event.target.classList.contains('delete-attendee')) {
-          const formId = event.target.getAttribute('data-form-id');
-          const form = document.querySelector(`#id_attendee_form-${formId}`);
-          
-          // Mark the form for deletion by setting its DELETE field to true
-          const deleteField = form.querySelector(`input[name="attendee_form-${formId}-DELETE"]`);
-          if (deleteField) {
-            deleteField.checked = true;
-            event.target.closest('.attendee-form').style.display = 'none'; // Hide the deleted form
-          }
-        }
-      });
-    });
-  </script>
+        <!-- Submit button -->
+        <div>
+            <button type="submit">Submit Reservation</button>
+        </div>
+    </form>
 </body>
 </html>

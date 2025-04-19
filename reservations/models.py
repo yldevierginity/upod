@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import user
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError #for the FileField part of ReservationRoomDetails
 
 #Imports to be added when existent
@@ -17,7 +17,8 @@ from django.core.exceptions import ValidationError #for the FileField part of Re
 #Individual_Attendees
 class Attendee(models.Model):
     attendee_list = models.ForeignKey('AttendeeList', on_delete=models.CASCADE, related_name='listings')
-    user = models.ForeignKey('upodusers', on_delete=models.CASCADE)
+    # user = models.ForeignKey('upodusers', on_delete=models.CASCADE) #commented this out for testing purposes, will use integer field for now
+    user = models.IntegerField()
 
     class Meta:
         unique_together = ('attendee_list', 'user')
@@ -44,16 +45,19 @@ def validate_file_extension(value):
 
 #Reservation_Room_Details
 class ReservationRoomDetails(models.Model):
-    room = models.OneToOneField('room', on_delete=models.CASCADE)
+    # room = models.OneToOneField('room', on_delete=models.CASCADE) #commented this out for testing purposes, will use integer field for now
+    room = models.IntegerField()
     start_time = models.TimeField()
     end_time = models.TimeField()
     date = models.DateField()
     attendee_list = models.OneToOneField('AttendeeList', on_delete=models.CASCADE)
-    letter_of_endorsement = models.FileField(
-        upload_to='', #will have to figure out how to use upload_to later, internet says something like '<name>/%Y/%m/%d/' to make a folder for each letters per date. I don't even know if that's secure
-                      #may need authentication/gatekeeping related decorators, but this is on the reservation side of things rather than actual stuff. Will need to learn more about this
-        validators=[validate_file_size, validate_file_extension]
-        ) 
+    # letter_of_endorsement = models.FileField(
+    #     upload_to='', #will have to figure out how to use upload_to later, internet says something like '<name>/%Y/%m/%d/' to make a folder for each letters per date. I don't even know if that's secure
+    #                   #may need authentication/gatekeeping related decorators, but this is on the reservation side of things rather than actual stuff. Will need to learn more about this
+    #     validators=[validate_file_size, validate_file_extension]
+    #     ) 
+    # commented this out for testing purposes, will use integer field for now
+    letter_of_endorsement = models.IntegerField()
     event_name = models.CharField(max_length=20)
     event_description = models.CharField(max_length=255)
 
@@ -69,12 +73,14 @@ class ReservationStatusLog(models.Model):
         ('D', 'Denied'),
     ]
 
-    admin_In_Charge = models.OneToOneField('admin', on_delete=models.SET_NULL, null=True, blank=True)
+    # admin_in_charge = models.OneToOneField('admin', on_delete=models.SET_NULL, null=True, blank=True) # commented this out for testing purposes, will use integer field for now
+    admin_in_charge = models.IntegerField()
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     time_stamp = models.DateTimeField(null=True, blank=True)
 
 #Reservation_Details
 class ReservationDetails(models.Model):
-    organizer = models.OneToOneField('upodusers', on_delete=models.CASCADE)
+    # organizer = models.OneToOneField('upodusers', on_delete=models.CASCADE) # commented this out for testing purposes, will use integer field for now
+    organizer = models.IntegerField()
     reservation_room_details = models.OneToOneField('ReservationRoomDetails', on_delete=models.CASCADE)
     reservation_status_log = models.OneToOneField('ReservationStatusLog', on_delete=models.CASCADE)

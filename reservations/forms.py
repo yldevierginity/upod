@@ -26,5 +26,5 @@ class AttendeeForm(forms.ModelForm):
 
 #If I understand properly, this allows AttendeeList to hold multiple values of Attendee given the parent child relationship they have.
 AttendeeFormSet = inlineformset_factory(
-    AttendeeList, Attendee, form=AttendeeForm, extra=1, can_delete=True
+    AttendeeList, Attendee, form=AttendeeForm, extra=5, can_delete=True #later, the extra will be according to how much the maximum people of rooms will be in each room in a separate app
 )
