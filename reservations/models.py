@@ -74,13 +74,13 @@ class ReservationStatusLog(models.Model):
     ]
 
     # admin_in_charge = models.OneToOneField('admin', on_delete=models.SET_NULL, null=True, blank=True) # commented this out for testing purposes, will use integer field for now
-    admin_in_charge = models.IntegerField()
+    admin_in_charge = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     time_stamp = models.DateTimeField(null=True, blank=True)
 
 #Reservation_Details
 class ReservationDetails(models.Model):
     # organizer = models.OneToOneField('upodusers', on_delete=models.CASCADE) # commented this out for testing purposes, will use integer field for now
-    organizer = models.IntegerField()
+    organizer = models.IntegerField(null=True, blank=True)
     reservation_room_details = models.OneToOneField('ReservationRoomDetails', on_delete=models.CASCADE)
     reservation_status_log = models.OneToOneField('ReservationStatusLog', on_delete=models.CASCADE)

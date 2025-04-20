@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReservationRoomDetailsForm, AttendeeFormSet
-from .models import ReservationDetails, ReservationStatusLog, AttendeeList, Attendee
+from .models import ReservationDetails, ReservationStatusLog, AttendeeList, Attendee, ReservationRoomDetails
 from django.contrib import messages
 
 # Create your views here.
@@ -13,10 +13,10 @@ def create_reservation(request):
     if request.method == "POST":
         #Create form instances
         attendees_formset = AttendeeFormSet(request.POST)
-        # roomdetails_form = ReservationRoomDetailsForm(request.POST)
+        roomdetails_form = ReservationRoomDetailsForm(request.POST)
 
         #form validation check
-        if attendees_formset.is_valid(): #and roomdetails_form.is_valid():
+        if attendees_formset.is_valid() and roomdetails_form.is_valid():
             
             #start with AttendeeList and attendees first, contextualized via the formset
             attendee_list = AttendeeList.objects.create() #instantiate the list of attendees
@@ -24,50 +24,56 @@ def create_reservation(request):
             attendees_formset.save() #save the attendees within the formset to the database
 
             #attendee list has been created, save details within roomdetaills_form now along with inserting the attendee list we just made as foreign key
-            # room_details = roomdetails_form.save(commit=False) #instantiate roomdetails without saving first; attendee list hasn't been added yet
-            # room_details.attendee_list = attendee_list #attach recently saved attendees_formset now named attendee_list
-            # room_details.save()
+            room_details = roomdetails_form.save(commit=False) #instantiate roomdetails without saving first; attendee list hasn't been added yet
+            room_details.attendee_list = attendee_list #attach recently saved attendees_formset now named attendee_list
+            room_details.save()
 
             # #instantiate status log
-            # status_log = ReservationStatusLog.objects.create() #I don't know why we must instantiate the save into status_log, but might as well. It still saves it anyway
-            #                                                    #every field in this is either intentionally defaulted as null or defaulted as a certain value, no need to save
+            status_log = ReservationStatusLog.objects.create() #I don't know why we must instantiate the save into status_log, but might as well. It still saves it anyway
+                                                               #every field in this is either intentionally defaulted as null or defaulted as a certain value, no need to save
 
             # #reservation details can now be saved with children to be attached
 
             # #I don't know the details of how users are going to be handled yet so I will comment this part for now
-            # #organizer = ??? definitely not request.user due to potential manually made user entity
-            # reservation_details = ReservationDetails.objects.create(
-            #     reservation_status_log=status_log,
-            #     reservation_room_details=room_details,
-            #     #organizer=organizer, #handled later when user has been finalized
-            # )            
+            #organizer = ??? definitely not request.user due to potential manually made user entity
+            reservation_details = ReservationDetails.objects.create(
+                reservation_status_log=status_log,
+                reservation_room_details=room_details,
+                #organizer=organizer, #handled later when user has been finalized
+            )            
             messages.success(request, "Reservation form creation saved successfully!")
             return redirect('reservation_success',
-                            attendee_list_id=attendee_list.id) #checks app's url patterns to see if there is a name 'reservation_success'; this does not go directly to function reservation_success
+                            reservation_details_id=reservation_details.id) #checks app's url patterns to see if there is a name 'reservation_success'; this does not go directly to function reservation_success
         else:
             messages.error(request, "There was an error with the form. Please try again.")
-            return redirect('create_reservation')
+            return render(request, 'reservations/reservation.html', {
+                'attendees_formset': attendees_formset,
+                'roomdetails_form': roomdetails_form,
+            })
+
         
     else: #if the form hasn't submitted yet
         #initialize the forms
         attendees_formset = AttendeeFormSet()
-        #roomdetails_form = ReservationRoomDetailsForm()
+        roomdetails_form = ReservationRoomDetailsForm()
 
     return render(request, 'reservations/reservation.html', {
         'attendees_formset': attendees_formset,
-        #'roomdetails_form': roomdetails_form,
+        'roomdetails_form': roomdetails_form,
     })
 
-def reservation_success(request, attendee_list_id):
-    print("Attendee list ID:", attendee_list_id)
+def reservation_success(request, reservation_details_id):
+
+    reservation_details = get_object_or_404(ReservationDetails, id=reservation_details_id)
+    room_details = reservation_details.reservation_room_details
+    status_log = reservation_details.reservation_status_log
 
     #This is for showing the currently submitted attendee_list
     #------------------------------------------------------------------
     # Retrieve the attendee list based on the passed attendee_list_id
-    list_id = attendee_list_id
-    attendee_list = get_object_or_404(AttendeeList, id=attendee_list_id)
+    attendee_list = room_details.attendee_list
     # Fetch all AttendeeList instances
-    attendee_lists = AttendeeList.objects.all()
+    attendees = attendee_list.listings.all()
     #------------------------------------------------------------------
 
     #This is for showing all the attendeelist and their respective attendees
@@ -91,8 +97,12 @@ def reservation_success(request, attendee_list_id):
     #-----------------------------------------------------------------------
     
     # Render the reservation success page, passing the attendee list
+    # print("Status log debug:", status_log.id, status_log.status, status_log.time_stamp)
+
     return render(request, 'reservations/reservation_success.html', {
-        'attendee_list': attendee_list,
-        'list_id': list_id,
+        'reservation_details': reservation_details,
+        'room_details': room_details,
+        'status_log': status_log,
+        'attendees': attendees,
         # 'attendeees_per_attendee': attendees_per_attendee,
     })

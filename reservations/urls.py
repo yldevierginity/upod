@@ -4,5 +4,5 @@ from . import views
 urlpatterns = [
     # URL pattern for the reservation success page
     path('create/', views.create_reservation, name='create_reservation'),
-    path('success/<int:attendee_list_id>/', views.reservation_success, name='reservation_success'),
+    path('success/<int:reservation_details_id>/', views.reservation_success, name='reservation_success'),
 ]

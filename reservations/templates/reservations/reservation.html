@@ -19,6 +19,12 @@
 
     <form method="POST">
         {% csrf_token %}
+
+        <!-- Room Details Form -->
+        <fieldset>
+            <legend>Room Details</legend>
+            {{ roomdetails_form.as_p }}
+        </fieldset>
         
         <!-- Attendee Formset -->
         <fieldset>

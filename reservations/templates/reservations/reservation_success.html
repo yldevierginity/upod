@@ -7,18 +7,32 @@
 </head>
 <body>
 
-<h1>Reservation Successful</h1>
+    <h1>Reservation Successful</h1>
+    <h2>Room Details:</h2>
+    <p><strong>Event Venue:</strong> Room {{ room_details.room }}</p>
+    <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>
+    <p><strong>Ending time:</strong> {{ room_details.end_time }}</p>
+    <p><strong>:</strong> {{ room_details.date }}</p>
+    <p><strong>Event Name:</strong> {{ room_details.event_name }}</p>
+    <p><strong>Letter of Endorsement:</strong> {{ room_details.letter_of_endorsement }}</p>
+    <p><strong>Event Description:</strong> {{ room_details.event_description }}</p>
+    
+    <h3>Attendee List (Current):</h3>
+    <p><strong>Attendee List ID:</strong> {{ room_details.attendee_list.id }}</p>
+    <ul>
+        {% for attendee in attendees %}
+            <li>{{ attendee.user }}</li>  <!-- Assuming each attendee has a 'user' field -->
+        {% empty %}
+            <li>No attendees yet</li>
+        {% endfor %}
+    </ul>
 
-<!--Room Details-->
-
-<!--List of Attendees-->
-<p><strong>Attendee List (Current):</strong></p>
-<ul>
-    <li>List ID: {{ list_id }} </li>
-    {% for attendee in attendee_list.listings.all %}
-        <li>Attendee ID: {{ attendee.id }}, User: {{ attendee.user }}</li>
-    {% endfor %}
-</ul>
+    <h3>Reservation Status:</h3>
+        {% if status_log %}
+    <p><strong>Status:</strong> {{ status_log.status }}</p>
+    {% else %}
+    <p>No status log found.</p>
+    {% endif %}
 
 <!-- ======================================================================================================================================== -->
 {% comment %} <p><strong>All Attendee Lists and their Attendees:</strong></p>
