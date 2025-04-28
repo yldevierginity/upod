@@ -84,8 +84,12 @@ WSGI_APPLICATION = 'UPOD.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tempName',
+        'USER': 'Migsygerzky',
+        'PASSWORD': 'DatabasePassword5000520409???',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
