@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError #for the FileField part of ReservationRoomDetails
+from rooms.models import Room
 
 #Imports to be added when existent
 
@@ -45,8 +46,7 @@ def validate_file_extension(value):
 
 #Reservation_Room_Details
 class ReservationRoomDetails(models.Model):
-    # room = models.OneToOneField('room', on_delete=models.CASCADE) #commented this out for testing purposes, will use integer field for now
-    room = models.IntegerField()
+    room = models.ForeignKey(Room, on_delete=models.CASCADE) #this is supposed to get the value dynamically from rooms app
     start_time = models.TimeField()
     end_time = models.TimeField()
     date = models.DateField()

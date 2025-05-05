@@ -9,7 +9,7 @@ from .models import (
 class ReservationRoomDetailsForm(forms.ModelForm):
     class Meta:
         model = ReservationRoomDetails
-        exclude = ['attendee_list'] #This is a OneToOne related entity that is not meant to have fields as django implicitly handles it based on the one to one
+        exclude = ['attendee_list', 'room'] #This is a OneToOne related entity that is not meant to have fields as django implicitly handles it based on the one to one
                                     #and one to many from Attendee and ReservationRoomDetails
 
 #Form for status log unnecessary as it only needs to be created during reservation submission then modified later via buttons by admin

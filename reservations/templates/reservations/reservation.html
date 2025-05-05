@@ -6,7 +6,7 @@
     <title>Reservation Form</title>
 </head>
 <body>
-    <h1>Create a Reservation</h1>
+    <h1>Create a Reservation for {{ room.roomlabel }}</h1>
 
     <!-- Display success or error messages -->
     {% if messages %}
@@ -60,5 +60,9 @@
             <button type="submit">Submit Reservation</button>
         </div>
     </form>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
+        Back to Room Selection
+    </button>
+
 </body>
 </html>

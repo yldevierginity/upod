@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReservationRoomDetailsForm, AttendeeFormSet
 from .models import ReservationDetails, ReservationStatusLog, AttendeeList, Attendee, ReservationRoomDetails
+from rooms.models import Room
 from django.contrib import messages
 
 # Create your views here.
@@ -8,7 +9,9 @@ from django.contrib import messages
 # ReservationDetails holds ReservationRoomDetails and ReservationStatusLog
 # ReservationRoomDetails holds AttendeeList
 # It is safe to say that AttendeeList MUST BE SAVED FIRST, followed by ReservationRoomDetails and ReservationStatusLog in any order, then finally ReservationDetails
-def create_reservation(request):
+def create_reservation(request, room_id):
+
+    room = get_object_or_404(Room, id=room_id)
 
     if request.method == "POST":
         #Create form instances
@@ -25,6 +28,7 @@ def create_reservation(request):
 
             #attendee list has been created, save details within roomdetaills_form now along with inserting the attendee list we just made as foreign key
             room_details = roomdetails_form.save(commit=False) #instantiate roomdetails without saving first; attendee list hasn't been added yet
+            room_details.room = room
             room_details.attendee_list = attendee_list #attach recently saved attendees_formset now named attendee_list
             room_details.save()
 
@@ -49,6 +53,7 @@ def create_reservation(request):
             return render(request, 'reservations/reservation.html', {
                 'attendees_formset': attendees_formset,
                 'roomdetails_form': roomdetails_form,
+                'room': room,
             })
 
         
@@ -60,6 +65,7 @@ def create_reservation(request):
     return render(request, 'reservations/reservation.html', {
         'attendees_formset': attendees_formset,
         'roomdetails_form': roomdetails_form,
+        'room': room,
     })
 
 def reservation_success(request, reservation_details_id):

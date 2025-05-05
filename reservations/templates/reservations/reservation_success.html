@@ -9,7 +9,7 @@
 
     <h1>Reservation Successful</h1>
     <h2>Room Details:</h2>
-    <p><strong>Event Venue:</strong> Room {{ room_details.room }}</p>
+    <p><strong>Event Venue:</strong> {{ room_details.room }}</p>
     <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>
     <p><strong>Ending time:</strong> {{ room_details.end_time }}</p>
     <p><strong>:</strong> {{ room_details.date }}</p>
@@ -52,7 +52,7 @@
 <p>Thank you for your reservation!</p>
 
 <!-- Add a button that links back to the reservation creation page -->
-<a href="{% url 'create_reservation' %}">
+<a href="{% url 'create_reservation' room_id=room_details.room.id %}">
     <button type="button">Go Back to Reservation</button>
 </a>
 
