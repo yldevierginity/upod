@@ -11,6 +11,7 @@ django-allauth = "*"
 requests = "*"
 pyjwt = "*"
 cryptography = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
 
