@@ -1,8 +1,8 @@
 from django import forms
-from django.forms import inlineformset_factory
 from .models import (
     ReservationRoomDetails, AttendeeList, Attendee
 )
+from django.forms.widgets import DateInput, TimeInput
 
 #The relatively 'normal' forms
 
@@ -11,6 +11,20 @@ class ReservationRoomDetailsForm(forms.ModelForm):
         model = ReservationRoomDetails
         exclude = ['attendee_list', 'room'] #This is a OneToOne related entity that is not meant to have fields as django implicitly handles it based on the one to one
                                     #and one to many from Attendee and ReservationRoomDetails
+        widgets = {
+            'date': DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'start_time': TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control'
+            }),
+            'end_time': TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control'
+            }),
+        }
 
 #Form for status log unnecessary as it only needs to be created during reservation submission then modified later via buttons by admin
 
@@ -24,7 +38,4 @@ class AttendeeForm(forms.ModelForm):
         model = Attendee
         exclude = ['attendee_list'] #same reason as with ReservationRoomDetails, but this time foreign key; also, Django apparently has a builtin reverse query function so that's that
 
-#If I understand properly, this allows AttendeeList to hold multiple values of Attendee given the parent child relationship they have.
-AttendeeFormSet = inlineformset_factory(
-    AttendeeList, Attendee, form=AttendeeForm, extra=5, can_delete=True #later, the extra will be according to how much the maximum people of rooms will be in each room in a separate app
-)
+

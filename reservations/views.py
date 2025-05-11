@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ReservationRoomDetailsForm, AttendeeFormSet
+from .forms import ReservationRoomDetailsForm, AttendeeForm
 from .models import ReservationDetails, ReservationStatusLog, AttendeeList, Attendee, ReservationRoomDetails
 from rooms.models import Room
 from django.contrib import messages
+from django.forms import inlineformset_factory
 
 # Create your views here.
 
@@ -12,6 +13,13 @@ from django.contrib import messages
 def create_reservation(request, room_id):
 
     room = get_object_or_404(Room, id=room_id)
+
+    dynamic_extra = room.capacity if hasattr(room, 'capacity') else 1
+
+    #If I understand properly, this allows AttendeeList to hold multiple values of Attendee given the parent child relationship they have.
+    AttendeeFormSet = inlineformset_factory(
+        AttendeeList, Attendee, form=AttendeeForm, extra=dynamic_extra, can_delete=True #later, the extra will be according to how much the maximum people of rooms will be in each room in a separate app
+    )
 
     if request.method == "POST":
         #Create form instances
