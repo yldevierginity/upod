@@ -24,7 +24,7 @@ def create_reservation(request, room_id):
     if request.method == "POST":
         #Create form instances
         attendees_formset = AttendeeFormSet(request.POST)
-        roomdetails_form = ReservationRoomDetailsForm(request.POST)
+        roomdetails_form = ReservationRoomDetailsForm(request.POST, request.FILES)
 
         #form validation check
         if attendees_formset.is_valid() and roomdetails_form.is_valid():
@@ -118,5 +118,5 @@ def reservation_success(request, reservation_details_id):
         'room_details': room_details,
         'status_log': status_log,
         'attendees': attendees,
-        # 'attendeees_per_attendee': attendees_per_attendee,
+        'endorsement_file': room_details.letter_of_endorsement.url if room_details.letter_of_endorsement else None,
     })

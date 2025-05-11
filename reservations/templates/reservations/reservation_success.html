@@ -12,9 +12,9 @@
     <p><strong>Event Venue:</strong> {{ room_details.room }}</p>
     <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>
     <p><strong>Ending time:</strong> {{ room_details.end_time }}</p>
-    <p><strong>:</strong> {{ room_details.date }}</p>
+    <p><strong>Date:</strong> {{ room_details.date }}</p>
     <p><strong>Event Name:</strong> {{ room_details.event_name }}</p>
-    <p><strong>Letter of Endorsement:</strong> {{ room_details.letter_of_endorsement }}</p>
+    <p><strong>Letter of Endorsement:</strong> <a href="{{ room_details.letter_of_endorsement.url }}" target="_blank">View PDF</a></p></p>
     <p><strong>Event Description:</strong> {{ room_details.event_description }}</p>
     
     <h3>Attendee List (Current):</h3>

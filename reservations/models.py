@@ -1,3 +1,5 @@
+import os
+from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError #for the FileField part of ReservationRoomDetails
@@ -42,6 +44,11 @@ def validate_file_size(value):
 def validate_file_extension(value):
     if not value.name.endswith('.pdf'):
         raise ValidationError('Only PDF files are allowed.')
+    
+def endorsement_upload_path(instance, filename):
+    # Ensure a unique file name by using the reservation ID and current timestamp
+    file_extension = os.path.splitext(filename)[1]
+    return f'reservations/{now().strftime("%Y%m%d%H%M%S")}{file_extension}'
 #===================================================================================
 
 #Reservation_Room_Details
@@ -51,13 +58,10 @@ class ReservationRoomDetails(models.Model):
     end_time = models.TimeField()
     date = models.DateField()
     attendee_list = models.OneToOneField('AttendeeList', on_delete=models.CASCADE)
-    # letter_of_endorsement = models.FileField(
-    #     upload_to='', #will have to figure out how to use upload_to later, internet says something like '<name>/%Y/%m/%d/' to make a folder for each letters per date. I don't even know if that's secure
-    #                   #may need authentication/gatekeeping related decorators, but this is on the reservation side of things rather than actual stuff. Will need to learn more about this
-    #     validators=[validate_file_size, validate_file_extension]
-    #     ) 
-    # commented this out for testing purposes, will use integer field for now
-    letter_of_endorsement = models.IntegerField()
+    letter_of_endorsement = models.FileField(
+        upload_to=endorsement_upload_path,
+        validators=[validate_file_size, validate_file_extension]
+    )
     event_name = models.CharField(max_length=20)
     event_description = models.CharField(max_length=255)
 
