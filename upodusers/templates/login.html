@@ -1,31 +1,106 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UPOD</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/login.css">
+    <script src="https://unpkg.com/htmx.org@2.0.4" 
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+    crossorigin="anonymous"></script>
+    <title>UPOD</title>
 </head>
+
 <body>
 
-  <div class="container">
     <div class="header">
-      <img src="https://upload.wikimedia.org/wikipedia/en/9/9e/UP_Mindanao_Logo.png" alt="UP Mindanao Logo"/>
-      <div class="header-text">
-        UP Mindanao <br/>
-        Interactive Learning Center
+        <div class="ilc_logo">
+          <img src="../static/ilc_logo.png" alt="ILC Logo">
+        </div>
+        <h1>UP Mindanao Interactive Learning Center</h1>
       </div>
+
+    <!-- SIGN UP -->
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form hx-post="/signup/" hx-target="#container" hx-swap="innerHTML">
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <button type="button">
+                        <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
+                    </button>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- SIGN IN -->
+        <div class="form-container sign-in">
+            <form hx-post="/login/" hx-target="#container" hx-swap="innerHTML" hx-trigger="click">
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <button type="button">
+                        <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
+                    </button>
+                </div>
+                <span>or use your email password</span>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <img src="../static/ilc_logo.png" alt="">
+                    <div class="uplogo">
+                        <img src="../static/uplogo.png" alt="UP Logo">
+                    </div>
+                    <h1>Welcome to UPOD!</h1>
+                    <p>Explore. Engage. Excel. Together at UP Mindanao ILC</p>
+                    <button class="hidden" 
+                            id="container"
+                            type="button"
+                            hx-on="click: document.getElementById('container').classList.remove('active')">Sign In
+                    </button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <img src="../static/ilc_logo.png" alt="ILC Logo">
+                    <div class="uplogo">
+                        <img src="../static/uplogo.png" alt="UP Logo">
+                    </div>
+                    <h1>Welcome UP Mindanao Student!</h1>
+                    <p>Don't have an account yet? Sign up now!</p>
+                    <button class="hidden" 
+                            id="container"
+                            type="button"
+                            hx-on="click: document.getElementById('container').classList.add('active')">Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="login-box">
-      <div class="avatar">👤</div>
-      <h3>USER LOG IN</h3>
-      <input type="email" placeholder="EMAIL" required />
-      <input type="password" placeholder="PASSWORD" required />
-      <button>LOG IN</button>
+    <div class="footer">
+        <h1>Contact Us</h1>
+        
+            <a href="https://www.facebook.com/ilclrcupmindanao" target="_blank">
+                <i class="fa-brands fa-facebook"></i>
+                Connect with us on Facebook
+            </a> 
+            <a href="https://mail.google.com/" target="_blank">
+                <i class="fa fa-envelope"></i>
+                Send us an email
+            </a>
+            <br>
     </div>
-  </div>
-
+    <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,338 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import url('https://fonts.cdnfonts.com/css/lumanosimo');
+@import url('https://fonts.cdnfonts.com/css/unbounded');
+
+:root {
+  --primary-color: #5c48ee;
+  --primary-color-dark: #0f1e6a;
+  --secondary-color: #f9fafe;
+  --text-color: #333333;
+  --white: #ffffff;
+  --max-width: 1200px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'PP Neue Montreal', sans-serif;
+}
+
+nav {
+  width:100%;
+  margin: auto;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  box-shadow: #0f1e6a 0px 0px 12px 0px;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    align-items: flex-start;
+    padding: 10px;
+
+    .nav-logo a {
+      font-size: 40px;
+      padding: 0;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+.nav-logo a {
+  font-size: 60px;
+  font-weight: 900;
+  font-family: unbounded;
+  font-stretch: expanded;
+  color: #000;
+  text-decoration: none;
+  padding: 0px 3rem;
+}
+
+.nav-logo a:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s ease-in-out;
+
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding:30px;
+  
+}
+
+.nav-links a{
+  list-style: none;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 0px 60px;
+  color: #000;
+  font:'PP Neue Montreal', sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  gap: 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  height: 45px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: #448afb;
+  box-shadow: 0 0 0 5px #3b83f65f;
+  color: #fff;
+  transform: scale(1.06);
+}
+
+
+.link a {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: 0.3s;
+  list-style: none;
+}
+
+.link a:hover {
+  color: var(--primary-color);
+}
+
+.nav__btn {
+  font-size: 18px;
+  width: fit-content;
+  border-radius: 20px;
+  padding: 15px 35px;
+  color: #fff;
+  background-color: var(--primary-color);
+  text-decoration: none;
+  list-style: none;
+}
+.nav__btn:hover {
+  transform: scale3d(1.05, 1.05, 1);
+  box-shadow: 2px 3px 0px 1px #1f1c24;
+
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 1rem;
+  min-height: calc(100vh - 100px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5rem;
+}
+
+.content__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content__container h1 {
+  font-size: 5rem;
+  font-weight: 400;
+  line-height: 6rem;
+  color: var(--primary-color-dark);
+  margin-bottom: 1rem;
+}
+
+.heading__1 {
+  font-weight: 800;
+}
+
+.heading__2 {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.content__container p {
+  font-size: 18px;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.content__container form {
+  display: flex;
+  align-items: center;
+}
+
+.content__container input {
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem;
+  font-size: 0.8rem;
+  outline: none;
+  border: none;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.content__container button {
+  width: fit-content;
+  padding: 1rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  background-color: var(--primary-color);
+  color: var(--white);
+  outline: none;
+  border: none;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.content__container button:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.image__container {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  place-content: center;
+}
+
+.image__container img {
+  width: 120%;
+  max-width: 300px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 3px 3px 4px #d2dc1f, -3px -3px 4px #3FADBE , 3px -3px 4px #59cfe7 , -3px 3px 4px #E65952 ;
+
+}
+.image__container:hover {
+  transform: scale(1.05); /* Scale up on hover */
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+.image__container img:nth-child(1) {
+  transform: translateY(70px);
+}
+
+.image__container img:nth-child(2) {
+  transform: translateY(-70px);
+}
+
+.image__content li {
+  margin-bottom: 0.5rem;
+}
+
+@media (width < 900px) {
+  .link a:not(.nav__btn) {
+    display: none;
+  }
+
+  .container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .content__container {
+    text-align: center;
+  }
+
+  .content__container form {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .image__container {
+    grid-area: 1/1/2/2;
+  }
+
+  .image__container img {
+    transform: translateY(0) !important;
+  }
+}
+
+.image-engage {
+  display: flex;
+  gap: 5rem; /* Space between images */ 
+  justify-content: center; /* Center the images */
+  margin-top: 20px; /* Space above images */
+  padding: 0px 0px 40px 0px;
+}
+
+.image-engage img {
+  width: 420px; /* Control the width of images */
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  border: #58929d 4px solid; 
+}
+
+.image-engage img:hover {
+  transform: scale(1.05); /* Scale up on hover */
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+
+.engagement__container{
+  background-color: #59cfe7;
+}
+
+.engagement__container h1{
+  font-size: 47px;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+  padding: 55px;
+  margin-bottom: 5px;
+}
+
+.engagement__container p{
+  font-size: 20px;
+  color: #000;
+  text-align: center;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 3rem;
+  width: auto;
+}
+
+.footer {
+  padding: 20px 40px;
+}
+
+.footer hr {
+  border: none;
+  border-top: 2px solid #adaaaa;
+  margin-bottom: 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #2c3e50;
+}
+
+.footer-content a {
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.footer-content a:hover {
+  text-decoration: underline;
+}
