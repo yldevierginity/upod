@@ -27,7 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SITE_ID = 2
+SITE_ID = 3
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIERD = True
+
+
 
 # Application definition
 
@@ -39,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'approvals',
-    'dashboard',
+    'userdashboard',
     'events',
     'feedback',
     'notifications',
@@ -102,8 +107,12 @@ WSGI_APPLICATION = 'UPOD.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'upod',
+        'USER': 'postgres',
+        'PASSWORD': 'upod',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
