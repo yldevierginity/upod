@@ -16,6 +16,7 @@ from rooms.models import Room
 
 
 # Create your models here.
+# note that currently, only Attendee is the child that has a field which holds a 'pointer' to its parent. It also seems to be the only one that cascades deletion properly
 
 #Individual_Attendees
 class Attendee(models.Model):
@@ -57,7 +58,7 @@ class ReservationRoomDetails(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     date = models.DateField()
-    attendee_list = models.OneToOneField('AttendeeList', on_delete=models.CASCADE)
+    attendee_list = models.OneToOneField('AttendeeList', on_delete=models.CASCADE, related_name="reservation_room_detail")
     letter_of_endorsement = models.FileField(
         upload_to=endorsement_upload_path,
         validators=[validate_file_size, validate_file_extension]
@@ -84,7 +85,6 @@ class ReservationStatusLog(models.Model):
 
 #Reservation_Details
 class ReservationDetails(models.Model):
-    # organizer = models.OneToOneField('upodusers', on_delete=models.CASCADE) # commented this out for testing purposes, will use integer field for now
-    organizer = models.IntegerField(null=True, blank=True)
-    reservation_room_details = models.OneToOneField('ReservationRoomDetails', on_delete=models.CASCADE)
-    reservation_status_log = models.OneToOneField('ReservationStatusLog', on_delete=models.CASCADE)
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reservations", null=False, blank=False)
+    reservation_room_details = models.OneToOneField('ReservationRoomDetails', on_delete=models.CASCADE, related_name="reservation_detail")
+    reservation_status_log = models.OneToOneField('ReservationStatusLog', on_delete=models.CASCADE, related_name="reservation_detail")

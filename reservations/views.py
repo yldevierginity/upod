@@ -49,6 +49,7 @@ def create_reservation(request, room_id):
             # #I don't know the details of how users are going to be handled yet so I will comment this part for now
             #organizer = ??? definitely not request.user due to potential manually made user entity
             reservation_details = ReservationDetails.objects.create(
+                organizer=request.user,
                 reservation_status_log=status_log,
                 reservation_room_details=room_details,
                 #organizer=organizer, #handled later when user has been finalized
