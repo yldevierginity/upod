@@ -16,9 +16,34 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', include('upodusers.urls'))
-]
+    path('', include('upodusers.urls')),
+    path('rooms/', include('rooms.urls')),
+    path('reservations/', include('reservations.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+#THIS IS FOR REFERENCE OF THE MERGE THAT HAPPENED BETWEEN allauth_related AND reservation-room_related
+# <<<<<<< HEAD
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('accounts/', include('allauth.urls')),
+#     path('', include('upodusers.urls'))
+# ]
+# =======
+# from django.conf import settings
+# from django.conf.urls.static import static
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),    
+#     path('rooms/', include('rooms.urls')),
+#     path('reservations/', include('reservations.urls')),
+# ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# >>>>>>> reservation-room_recent_local

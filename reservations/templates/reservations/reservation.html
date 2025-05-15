@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Form</title>
+</head>
+<body>
+    <h1>Create a Reservation for {{ room.roomlabel }}</h1>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Room Details Form -->
+        <fieldset>
+            <legend>Room Details</legend>
+            {{ roomdetails_form.as_p }}
+        </fieldset>
+        
+        <!-- Attendee Formset -->
+        <fieldset>
+            <legend>Attendee Information</legend>
+            {{ attendees_formset.management_form }}
+            <div>
+                {% for form in attendees_formset %}
+                    <div>
+                        <label for="{{ form.user.id_for_label }}">User:</label>
+                        {{ form.user }}
+                        {% if form.errors %}
+                            <div style="color:red;">
+                                {% for error in form.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </fieldset>
+
+        <!-- Submit button -->
+        <div>
+            <button type="submit">Submit Reservation</button>
+        </div>
+    </form>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
+        Back to Room Selection
+    </button>
+
+</body>
+</html>
