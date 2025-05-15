@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SITE_ID = 3
+SITE_ID = 4
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIERD = True
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'approvals',
-    'userdashboard',
     'events',
     'feedback',
     'notifications',
@@ -108,9 +107,9 @@ WSGI_APPLICATION = 'UPOD.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'upod',
+        'NAME': 'tempName',
         'USER': 'postgres',
-        'PASSWORD': 'upod',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432'
     }
