@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../static/landing.css" />
     <script src="https://unpkg.com/htmx.org@2.0.4" 
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
@@ -18,7 +19,21 @@
         <li class="registration"><a href="../templates/registration.html">Registration</a></li>
         <li class="events"><a href="../templates/events.html">Events</a></li>
         <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
-        <li class="profile"><a href="../templates/profile.html">Profile</a></li>
+        
+          <div class="profile-dropdown">
+              <a href="../templates/profile.html" title="My Profile">
+              <i class="fa-regular fa-circle-user"></i>
+              </a>
+            <ul class="dropdown-menu">
+              <li><a href="../templates/profile.html">View Profile</a></li>
+              <li class="logout">
+                <a  hx-post="/logout/" 
+                hx-target="body" 
+                hx-swap="outerHTML" 
+                hx-confirm="Are you sure you want to log out?">Logout</a>
+              </li>
+            </ul>
+          </div>
       </ul>
     </nav>
     <section class="container">
@@ -28,12 +43,16 @@
           <span class="heading__1">UPOD?</span><br/>
         </h1>
         <p>
-          Unlock your full learning potential with our intuitive education
-          platform. Seamlessly blending technology and education, we provide an
+          Don't just study alone — learn together! Join UPOD and 
+          connect with fellow students, share ideas, and boost your understanding through collaborative learning.
+          Seamlessly blending technology and education, we provide an
           immersive learning environment that combines interactive lessons,
           virtual classrooms, and intelligent feedback.
+         <h3>
+          Reserve your seat today and make studying more engaging, effective, and fun!"
+         </h3>
         </p>
-        <a href="#" class="nav__btn">Register</a>
+        <a href="../templates/registration.html" class="nav__btn">Register</a>
       </div>
       <div class="image__container">
         <img src="../static/ilclogin.jpg" alt="header" />
@@ -43,7 +62,10 @@
 
     <section class="engagement__container">
       <div class="engagement__content">
-        <h1>Engage with UPOD</h1>
+          <h1>
+            Engage with<br/>
+            <span class="heading__1">UPOD</span><br/>
+          </h1>
         <p>
           Join our community of learners and educators, where you can share
           knowledge, collaborate on projects, and participate in discussions.

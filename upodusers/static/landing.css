@@ -99,6 +99,70 @@ nav {
   transform: scale(1.06);
 }
 
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: rgb(240, 236, 236);
+  list-style: none;
+  margin: 0;
+  padding: 5px;
+  border: 2px solid #0f1e6a;
+  border-radius: 14px;
+}
+
+.profile-dropdown .dropdown-menu li {
+  padding: 4px;
+}
+
+.profile-dropdown .dropdown-menu li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-menu li a:hover {
+  background-color: #448afb;
+  box-shadow: 0 0 0 5px #3b83f65f;
+  color: white;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.dropdown-menu .logout a {
+  padding: 7px;
+  text-align: center;
+}
+.dropdown-menu .logout a:hover{
+  background-color: #ec4b4b;
+  box-shadow: 0 0 0 5px #d127275f;
+  color: white;
+}
+
+.dropdown-menu a:hover{
+  box-shadow: none;
+  background-color: white;
+}
+
+.profile-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.profile-dropdown .fa-user {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.fa-circle-user {
+  font-size: 1.5rem;           
+  color: #000000;             
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
 
 .link a {
   padding: 0.5rem 1rem;
@@ -123,6 +187,7 @@ nav {
   background-color: var(--primary-color);
   text-decoration: none;
   list-style: none;
+  margin-bottom: 5rem;
 }
 .nav__btn:hover {
   transform: scale3d(1.05, 1.05, 1);
@@ -152,6 +217,13 @@ nav {
   line-height: 6rem;
   color: var(--primary-color-dark);
   margin-bottom: 1rem;
+  margin-top: 3rem;
+}
+
+.content__container h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--primary-color-dark);
 }
 
 .heading__1 {
@@ -164,9 +236,9 @@ nav {
 }
 
 .content__container p {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--text-color);
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   line-height: 1.5;
 }
 
@@ -220,8 +292,8 @@ nav {
 
 }
 .image__container:hover {
-  transform: scale(1.05); /* Scale up on hover */
-  transition: transform 0.3s ease-in-out; /* Smooth transition */
+  transform: scale(1.05); 
+  transition: transform 0.3s ease-in-out; 
 }
 
 .image__container img:nth-child(1) {
@@ -276,7 +348,7 @@ nav {
   height: auto;
   border-radius: 10px;
   margin-bottom: 50px;
-  border: #58929d 4px solid; 
+  border: #426d75 4px solid; 
 }
 
 .image-engage img:hover {
@@ -286,26 +358,30 @@ nav {
 
 
 .engagement__container{
-  background-color: #59cfe7;
+  background: linear-gradient(to right, #54c7de 50%, #ffffff);
+  
 }
 
 .engagement__container h1{
-  font-size: 47px;
-  font-weight: 700;
-  color: #000;
-  text-align: center;
-  padding: 55px;
-  margin-bottom: 5px;
+  font-size: 5rem;
+  font-weight: 400;
+  color: #0f1e6a;
+  text-align: left;
+  padding: 40px;
+  margin-left: 8rem;
+  ;
 }
 
 .engagement__container p{
-  font-size: 20px;
-  color: #000;
-  text-align: center;
+  font-size: 22px;
+  color: #0f1e6a;
+  text-align: left;
   justify-content: center;
   padding: 20px;
+  margin-left: 10rem;
   margin-bottom: 3rem;
-  width: auto;
+  width: 80%;
+  line-height: 1.5;
 }
 
 .footer {
