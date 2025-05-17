@@ -16,16 +16,7 @@
   </head>
   <body>
     {% block body %}
-        {% if messages %}
-            <div>
-                <strong>{% trans "Messages:" %}</strong>
-                <ul>
-                    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-                </ul>
-            </div>
-        {% endif %}
         <div>
-            <strong>{% trans "Menu:" %}</strong>
             <ul>
                 {% if user.is_authenticated %}
 
@@ -79,17 +70,6 @@
                 {% else %}
                     {% url 'account_login' as login_url_ %}
 
-                    {% if login_url_ %}
-                        <li>
-                            <a href="{{ login_url_ }}">{% trans "Sign In" %}</a>
-                        </li>
-                    {% endif %}
-                    {% url 'account_signup' as signup_url_ %}
-                    {% if signup_url_ %}
-                        <li>
-                            <a href="{{ signup_url_ }}">{% trans "Sign Up" %}</a>
-                        </li>
-                    {% endif %}
                 {% endif %}
             </ul>
         </div>
