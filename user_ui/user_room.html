@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Rooms</title>
+    <link rel="stylesheet" href="user_styles.css">
+    <!-- HTMX CDN -->
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ILC Rooms</h1>
+        </header>
+        
+        <main class="rooms-container">
+            <div class="room-card">
+                <div class="room-image" style="background-color: #5c48ee;">
+                    <span class="room-number">Room 101</span>
+                </div>
+                <div class="room-details">
+                    <h2>Conference Room A</h2>
+                    <p>Capacity: 20 people</p>
+                    <p>Features: Projector, Whiteboard, Video Conferencing</p>
+                    <button class="register-btn" onclick="window.location.href='user_status_r1.html'">Register Event</button>
+                </div>
+            </div>
+            
+            <div class="room-card">
+                <div class="room-image" style="background-color: #3FADBE;">
+                    <span class="room-number">Room 103</span>
+                </div>
+                <div class="room-details">
+                    <h2>Workshop Space</h2>
+                    <p>Capacity: 30 people</p>
+                    <p>Features: Sound System, Projector, Flexible Seating</p>
+                    <button class="register-btn" onclick="window.location.href='user_status_r2.html'">Register Event</button>
+                </div>
+            </div>
+            
+            <div class="room-card">
+                <div class="room-image" style="background-color: #E65952;">
+                    <span class="room-number">Room 104</span>
+                </div>
+                <div class="room-details">
+                    <h2>Executive Suite</h2>
+                    <p>Capacity: 8 people</p>
+                    <p>Features: Premium Furniture, Video Conferencing, Catering</p>
+                    <button class="register-btn" onclick="window.location.href='user_status_r3.html'">Register Event</button>
+                </div>
+            </div>
+
+             <div class="room-card">
+                <div class="room-image" style="background-color: #EBD448;">
+                    <span class="room-number">Room 103</span>
+                </div>
+                <div class="room-details">
+                    <h2>Workshop Space</h2>
+                    <p>Capacity: 30 people</p>
+                    <p>Features: Sound System, Projector, Flexible Seating</p>
+                    <button class="register-btn" onclick="window.location.href='user_status_r4.html'">Register Event</button>
+                </div>
+            </div>
+
+             <div class="room-card">
+                <div class="room-image" style="background-color: #E65952;">
+                    <span class="room-number">Room 104</span>
+                </div>
+                <div class="room-details">
+                    <h2>Executive Suite</h2>
+                    <p>Capacity: 8 people</p>
+                    <p>Features: Premium Furniture, Video Conferencing, Catering</p>
+                </div>
+            </div>
+
+              <div class="room-card">
+                <div class="room-image" style="background-color: #5c48ee;">
+                    <span class="room-number">Room 101</span>
+                </div>
+                <div class="room-details">
+                    <h2>Conference Room A</h2>
+                    <p>Capacity: 20 people</p>
+                    <p>Features: Projector, Whiteboard, Video Conferencing</p>
+                </div>
+            </div>
+            
+            
+
+        </main>
+        
+        <!-- Registration form will be loaded here when a register button is clicked -->
+        <div id="registration-form"></div>
+    </div>
+</body>
+</html>
