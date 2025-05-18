@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'PP Neue Montreal', sans-serif;                                       
+}
+
+body{
+    /* E65952 red */
+    /* EBD448 yellow */
+    /* 36707C blue */
+    /* 9DD0D1 light blue */
+    background-color: #ffffff;
+    /* background: linear-gradient(to bottom, #E65952 50%, #EBD448, #36707C); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.header {
+    background: linear-gradient(to right, #59cfe7 10%,#ffc506, #E65952);
+    width: 100%; 
+    margin-bottom: 50px;
+    font-size: 23px;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 1px 1px 11px #333;
+    display: flex;
+    gap: 30px;
+    font-weight: bold;
+    filter: blur(2px);
+}
+
+.ilc_logo img{
+    width: 150px;
+    height: auto;
+    
+}
+
+.container{
+  box-shadow: 3px 3px 4px #EBD448, -3px -3px 4px #3FADBE , 3px -3px 4px #59cfe7 , -3px 3px 4px #ffc506 ;
+  background-color: #f3f4e4;
+  border-radius: 20px;
+  margin: 4rem;
+  padding: 65px 65px 25px 65px;
+}
+
+.container:hover{
+  transform: scale(1.06);
+  transition: all 0.3s ease;
+}
+
+
+.container h1{
+    font-size: 34px;
+    color: #070403;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+.container p{
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 30px 0;
+}
+
+.sign-in_button{
+    background-color: #E65952;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sign-in_button:hover{
+    background-color: #EBD448;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transform: translateY(-4px);
+    transition: all 0.3s ease;  
+}
+
+.sign-in_button:active{
+    background-color: #eb4940;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+} 
+
+.sign-in_button p{
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  padding: 13px 20px;
+  letter-spacing: 1.2px;
+}
+
+.sign-in_button p:hover{
+  color: #120e0e;
+}
+
+/* CONTACT US */
+.footer{
+    margin-top: 50px;
+    width: 100%;
+    background: linear-gradient(to right, #59cfe7 10%,#ffc506, #E65952);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    filter: blur(2px);
+}
+
+.footer h1{
+    font-size: 40px;
+    color: #fff;
+    padding: 20px 0px;
+    text-align: center;
+    text-shadow: 2px 2px 8px #333
+}
+
+
+.footer a{
+    font: PP Neue Montreal;
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+    padding:20px;
+    text-shadow: 3px 3px 6px #333
+}
