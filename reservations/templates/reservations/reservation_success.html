@@ -9,6 +9,12 @@
 
     <h1>Reservation Successful</h1>
     <h2>Room Details:</h2>
+
+    {% if room_details.cover_image %}
+        <p><strong>Cover Page Image:</strong></p>
+        <img src="{{ room_details.cover_image.url }}" alt="Cover Page" style="max-width: 100%; height: auto;">
+    {% endif %}
+
     <p><strong>Organizer:</strong> {{ reservation_details.organizer.first_name }} {{ reservation_details.organizer.last_name }} </p>
     <p><strong>Event Venue:</strong> {{ room_details.room }}</p>
     <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>

@@ -19,10 +19,15 @@ from rooms.models import Room
 # note that currently, only Attendee is the child that has a field which holds a 'pointer' to its parent. It also seems to be the only one that cascades deletion properly
 
 #Individual_Attendees
+def validate_up_email(value):
+    if not value.endswith('@up.edu.ph'):
+        raise ValidationError("Email must end with @up.edu.ph")
+
 class Attendee(models.Model):
     attendee_list = models.ForeignKey('AttendeeList', on_delete=models.CASCADE, related_name='listings')
     # user = models.ForeignKey('upodusers', on_delete=models.CASCADE) #commented this out for testing purposes, will use integer field for now
-    user = models.IntegerField()
+    # user = models.IntegerField() Change of plans, user has to be of an email field instead for easier error handling
+    user = models.EmailField(validators=[validate_up_email])
 
     class Meta:
         unique_together = ('attendee_list', 'user')
@@ -54,6 +59,7 @@ def endorsement_upload_path(instance, filename):
 
 #Reservation_Room_Details
 class ReservationRoomDetails(models.Model):
+    cover_image = models.ImageField(upload_to='event_images/', blank=True, null=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE) #this is supposed to get the value dynamically from rooms app
     start_time = models.TimeField()
     end_time = models.TimeField()

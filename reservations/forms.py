@@ -1,8 +1,10 @@
 from django import forms
 from .models import (
-    ReservationRoomDetails, AttendeeList, Attendee
+    ReservationRoomDetails, Attendee
 )
 from django.forms.widgets import DateInput, TimeInput
+from django.forms import BaseInlineFormSet
+from django.core.exceptions import ValidationError
 
 #The relatively 'normal' forms
 
@@ -28,10 +30,22 @@ class ReservationRoomDetailsForm(forms.ModelForm):
 
 #Form for status log unnecessary as it only needs to be created during reservation submission then modified later via buttons by admin
 
-#Form for rerservation details also unnecessary
+class BaseAttendeeFormSet(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        self.current_user_email = kwargs.pop('current_user_email', None)
+        super().__init__(*args, **kwargs)
 
-
-#The part of the forms that require dynamic adding of stuff; apparently requires formset
+    def clean(self):
+        super().clean()
+        emails = []
+        for form in self.forms:
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                email = form.cleaned_data.get('user')
+                if email == self.current_user_email:
+                    raise ValidationError(f"The logged-in user's email '{email}' cannot be added as an attendee.")
+                if email in emails:
+                    raise ValidationError(f"Duplicate attendee email detected: {email}")
+                emails.append(email)
 
 class AttendeeForm(forms.ModelForm):
     class Meta:

@@ -12,6 +12,7 @@ requests = "*"
 pyjwt = "*"
 cryptography = "*"
 django-widget-tweaks = "*"
+pillow = "*"
 
 [dev-packages]
 
