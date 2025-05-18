@@ -151,7 +151,7 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / 'prodfiles'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'upodstaticfiles'
@@ -168,7 +168,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_ADAPTER = 'upodusers.adapters.CustomSocialAccountAdapter'
