@@ -1,113 +1,110 @@
+{% extends "account/base_entrance.html" %}
 {% load static %}
 {% load i18n %}
 {% load allauth %}
+{% load account %}
 {% load socialaccount %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block head_title %}
+  {% trans "Sign In" %}
+{% endblock head_title %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'upodusers/css/login.css' %}">
-    <script src="https://unpkg.com/htmx.org@2.0.4" 
-    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
-    crossorigin="anonymous"></script>
-    <title>UPOD</title>
-</head>
-
-<body>
-
-    <div class="header">
-        <div class="ilc_logo">
+{% block content %}
+<div class="header">
+    <div class="ilc_logo">
         <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
-        </div>
-        <h1>UP Mindanao Interactive Learning Center</h1>
-      </div>
+    </div>
+    <h1>UP Mindanao Interactive Learning Center</h1>
+</div>
 
-    <!-- SIGN UP -->
-    <div class="container" id="container">
-        <div class="form-container sign-up">
-            <form>
-                <h1>Create Account</h1>
-                <div class="social-icons">
-                    <a href="{% provider_login_url 'google' %}?next=/dashboard/">
-                        <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
-                    </a>
-                </div>
-                <span>use your UP email for registration</span>
-            </form>
-        </div>
+<div class="container" id="container">
+    <!-- Sign Up Panel -->
+    <div class="form-container sign-up">
+        <form method="POST" action="{% provider_login_url 'google' %}?next=/dashboard/">
+            {% csrf_token %}
+            <h1>Create Account</h1>
+            <div class="social-icons">
+                <button type="submit">
+                    <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
+                </button>
+            </div>
+            <span>use your UP email for registration</span>
+        </form>
+    </div>
 
-        <!-- SIGN IN -->
-        <div class="form-container sign-in">
-          {% load socialaccount %}
-            <form method="POST" action="{% url 'account_login' %}">
-              {% csrf_token %}
-                <h1>Sign In</h1>
-                <div class="social-icons">
-                    <a href="{% provider_login_url 'google' %}?next=/dashboard/" class="google-btn">
-                        <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
-                    </a>
-                </div>
-                <span>or use your email password</span>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button  hx-post="/login/" 
-                         hx-target="#container" 
-                         hx-swap="innerHTML"
-                         type="submit">Sign In</button>
-            </form>
-        </div>
+    <!-- Sign In Panel -->
+    <div class="form-container sign-in">
+        <form method="POST" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            <h1>Sign In</h1>
 
-        <div class="toggle-container">
-            <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="">
-                    <div class="uplogo">
-              <img src="{% static 'upodusers/images/uplogo.png' %}" alt="UP Logo">
-                    </div>
-                    <h1>Welcome to UPOD!</h1>
-                    <p>Explore. Engage. Excel. Together at UP Mindanao ILC</p>
-                    <button id="login"
-                            class="hidden" 
-                            type="button"
-                            hx-on="click: document.getElementById('container').classList.remove('active')">Sign In
-                    </button>
-                </div>
+            {% if not SOCIALACCOUNT_ONLY %}
+            <div class="social-icons">
+                <a href="{% provider_login_url 'google' %}?next=/dashboard/" class="google-btn">
+                    <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
+                </a>
+            </div>
+            <span>or use your email password</span>
 
-                <div class="toggle-panel toggle-right">
-                    <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
-                    <div class="uplogo">
+            <input type="email" name="login" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            {{ redirect_field }}
+            <button 
+                type="submit" 
+                hx-post="{% url 'account_login' %}" 
+                hx-target="#container" 
+                hx-swap="innerHTML">Sign In</button>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Toggle Panels -->
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
+                <div class="uplogo">
                     <img src="{% static 'upodusers/images/uplogo.png' %}" alt="UP Logo">
-                    </div>
-                    <h1>Welcome UP Mindanao Student!</h1>
-                    <p>Don't have an account yet? Sign up now!</p>
-                    <button class="hidden" 
-                            id="register"
-                            type="button"
-                            hx-on="click: document.getElementById('container').classList.add('active')">Sign Up
-                    </button>
                 </div>
+                <h1>Welcome to UPOD!</h1>
+                <p>Explore. Engage. Excel. Together at UP Mindanao ILC</p>
+                <button id="login"
+                        class="hidden" 
+                        type="button"
+                        hx-on="click: document.getElementById('container').classList.remove('active')">Sign In
+                </button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
+                <div class="uplogo">
+                    <img src="{% static 'upodusers/images/uplogo.png' %}" alt="UP Logo">
+                </div>
+                <h1>Welcome UP Mindanao Student!</h1>
+                <p>Don't have an account yet? Sign up now!</p>
+                <button class="hidden" 
+                        id="register"
+                        type="button"
+                        hx-on="click: document.getElementById('container').classList.add('active')">Sign Up
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="footer">
-        <h1>Contact Us</h1>
-        
-            <a href="https://www.facebook.com/ilclrcupmindanao" target="_blank">
-                <i class="fa-brands fa-facebook"></i>
-                Connect with us on Facebook
-            </a> 
-            <a href="https://mail.google.com/" target="_blank">
-                <i class="fa fa-envelope"></i>
-                ilc.upmindanao@up.edu.ph
-            </a>
-            <br>
-    </div>
-    <script src="{% static 'upodusers/js/script.js' %}"></script>
-</body>
+<div class="footer">
+    <h1>Contact Us</h1>
+    <a href="https://www.facebook.com/ilclrcupmindanao" target="_blank">
+        <i class="fa-brands fa-facebook"></i> Connect with us on Facebook
+    </a> 
+    <a href="https://mail.google.com/" target="_blank">
+        <i class="fa fa-envelope"></i> ilc.upmindanao@up.edu.ph
+    </a>
+</div>
+{% endblock content %}
 
-</html>
+{% block extra_body %}
+  {{ block.super }}
+  <script src="{% static 'upodusers/js/script.js' %}"></script>
+{% endblock extra_body %}
+
