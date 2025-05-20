@@ -7,39 +7,41 @@
 </head>
 <body>
 
-    <h1>Reservation Successful</h1>
-    <h2>Room Details:</h2>
+    <fieldset>
+        <h1>Reservation Successful</h1>
+        <h2>Room Details:</h2>
 
-    {% if room_details.cover_image %}
-        <p><strong>Cover Page Image:</strong></p>
-        <img src="{{ room_details.cover_image.url }}" alt="Cover Page" style="max-width: 100%; height: auto;">
-    {% endif %}
+        {% if room_details.cover_image %}
+            <p><strong>Cover Page Image:</strong></p>
+            <img src="{{ room_details.cover_image.url }}" alt="Cover Page" style="max-width: 100%; height: auto;">
+        {% endif %}
 
-    <p><strong>Organizer:</strong> {{ reservation_details.organizer.first_name }} {{ reservation_details.organizer.last_name }} </p>
-    <p><strong>Event Venue:</strong> {{ room_details.room }}</p>
-    <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>
-    <p><strong>Ending time:</strong> {{ room_details.end_time }}</p>
-    <p><strong>Date:</strong> {{ room_details.date }}</p>
-    <p><strong>Event Name:</strong> {{ room_details.event_name }}</p>
-    <p><strong>Letter of Endorsement:</strong> <a href="{{ room_details.letter_of_endorsement.url }}" target="_blank">View PDF</a></p></p>
-    <p><strong>Event Description:</strong> {{ room_details.event_description }}</p>
-    
-    <h3>Attendee List (Current):</h3>
-    <p><strong>Attendee List ID:</strong> {{ room_details.attendee_list.id }}</p>
-    <ul>
-        {% for attendee in attendees %}
-            <li>{{ attendee.user }}</li>  <!-- Assuming each attendee has a 'user' field -->
-        {% empty %}
-            <li>No attendees yet</li>
-        {% endfor %}
-    </ul>
+        <p><strong>Organizer:</strong> {{ reservation_details.organizer.first_name }} {{ reservation_details.organizer.last_name }} </p>
+        <p><strong>Event Venue:</strong> {{ room_details.room }}</p>
+        <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>
+        <p><strong>Ending time:</strong> {{ room_details.end_time }}</p>
+        <p><strong>Date:</strong> {{ room_details.date }}</p>
+        <p><strong>Event Name:</strong> {{ room_details.event_name }}</p>
+        <p><strong>Letter of Endorsement:</strong> <a href="{{ room_details.letter_of_endorsement.url }}" target="_blank">View PDF</a></p></p>
+        <p><strong>Event Description:</strong> {{ room_details.event_description }}</p>
+        
+        <h3>Attendee List (Current):</h3>
+        <p><strong>Attendee List ID:</strong> {{ room_details.attendee_list.id }}</p>
+        <ul>
+            {% for attendee in attendees %}
+                <li>{{ attendee.user }}</li>  <!-- Assuming each attendee has a 'user' field -->
+            {% empty %}
+                <li>No attendees yet</li>
+            {% endfor %}
+        </ul>
 
-    <h3>Reservation Status:</h3>
-        {% if status_log %}
-    <p><strong>Status:</strong> {{ status_log.status }}</p>
-    {% else %}
-    <p>No status log found.</p>
-    {% endif %}
+        <h3>Reservation Status:</h3>
+            {% if status_log %}
+        <p><strong>Status:</strong> {{ status_log.status }}</p>
+        {% else %}
+        <p>No status log found.</p>
+        {% endif %}
+    </fieldset>
 
 <!-- ======================================================================================================================================== -->
 {% comment %} <p><strong>All Attendee Lists and their Attendees:</strong></p>

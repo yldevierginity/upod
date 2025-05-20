@@ -17,5 +17,59 @@
     <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
         Reservation
     </button>
+    <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+    <h2>Your Reservations</h2>
+
+    {% if reservations %}
+        {% for room_details in reservations %}
+            <fieldset>
+                <legend><strong>Reservation ID:</strong> {{ room_details.id }}</legend>
+
+                <h3>Room Details</h3>
+
+                {% if room_details.cover_image %}
+                    <p><strong>Cover Page Image:</strong></p>
+                    <img src="{{ room_details.cover_image.url }}" alt="Cover Page" style="width: 300px; height: 200px; object-fit: cover;">
+                {% endif %}
+
+                <p><strong>Organizer:</strong> {{ room_details.reservation_detail.organizer.first_name }} {{ room_details.reservation_detail.organizer.last_name }}</p>
+                <p><strong>Event Venue:</strong> {{ room_details.room }}</p>
+                <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>
+                <p><strong>Ending time:</strong> {{ room_details.end_time }}</p>
+                <p><strong>Date:</strong> {{ room_details.date }}</p>
+                <p><strong>Event Name:</strong> {{ room_details.event_name }}</p>
+                <p><strong>Letter of Endorsement:</strong> 
+                    {% if room_details.letter_of_endorsement %}
+                        <a href="{{ room_details.letter_of_endorsement.url }}" target="_blank">View PDF</a>
+                    {% else %}
+                        Not uploaded
+                    {% endif %}
+                </p>
+                <p><strong>Event Description:</strong> {{ room_details.event_description }}</p>
+
+                <h4>Attendee List</h4>
+                <p><strong>Attendee List ID:</strong> {{ room_details.attendee_list.id }}</p>
+                <ul>
+                    {% for attendee in room_details.attendee_list.listings.all %}
+                        <li>{{ attendee.user }}</li>
+                    {% empty %}
+                        <li>No attendees yet</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Reservation Status</h4>
+                {% if room_details.reservation_detail.reservation_status_log %}
+                    <p><strong>Status:</strong> {{ room_details.reservation_detail.reservation_status_log.get_status_display }}</p>
+                {% else %}
+                    <p>No status log found.</p>
+                {% endif %}
+            </fieldset>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>You have no reservations yet.</p>
+    {% endif %}
+
+    <br>
 </body>
 </html>

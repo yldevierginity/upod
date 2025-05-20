@@ -5,6 +5,7 @@ from .models import (
 from django.forms.widgets import DateInput, TimeInput
 from django.forms import BaseInlineFormSet
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 #The relatively 'normal' forms
 
@@ -51,5 +52,11 @@ class AttendeeForm(forms.ModelForm):
     class Meta:
         model = Attendee
         exclude = ['attendee_list'] #same reason as with ReservationRoomDetails, but this time foreign key; also, Django apparently has a builtin reverse query function so that's that
+
+    def clean_user(self):
+        email = self.cleaned_data.get('user')
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("No user with this email exists.")
+        return email
 
 
