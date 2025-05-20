@@ -94,7 +94,7 @@ nav {
 }
 
 .nav-links a:hover {
-  background-color: #5587d7;
+  background-color: var(--primary-color);
   box-shadow: 0 0 0 5px #3b83f65f;
   color: #fff;
   transform: scale(1.06);
@@ -127,7 +127,7 @@ nav {
 }
 
 .dropdown-menu li a:hover {
-  background-color: #5587d7;
+  background-color: var(--primary-color);
   box-shadow: 0 0 0 3px #3b83f65f;
   color: white;
   text-decoration: none;
@@ -362,8 +362,13 @@ nav {
 
 
 .engagement__container{
-  background: linear-gradient(to right, #91cbd7 50%, #ffffff);
-  
+  background: linear-gradient(to right, #9eaee5 50%, #ffffff);         
+}
+
+@media (max-width: 768px) {
+  .engagement__container {
+    background: linear-gradient(to bottom, #9eaee5 50%, #ffffff 50%);
+  }
 }
 
 .engagement__container h1{

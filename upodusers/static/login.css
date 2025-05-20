@@ -50,10 +50,12 @@ button{
     box-shadow: 3px 3px 4px #EBD448, -3px -3px 4px #3FADBE , 3px -3px 4px #59cfe7 , -3px 3px 4px #ffc506 ;
     position: relative;
     overflow: hidden;
-    width: 768px;
-    max-width: 100%;
+    width: 90%;              
+    max-width: 768px;        
     min-height: 480px;
-    margin-bottom: 120px;
+    margin: 0 auto 120px auto; 
+    padding: 20px;           
+    box-sizing: border-box;   
 }
 
 .container p{
