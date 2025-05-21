@@ -110,7 +110,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'upod',
         'USER': 'postgres',
-        'PASSWORD': 'upod',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -168,7 +168,12 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-LOGIN_REDIRECT_URL = '/dashboard/'
-LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_ADAPTER = 'upodusers.adapters.CustomSocialAccountAdapter'
+
+# For Password Reset Locally
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_PASSWORD_RESET_DONE_REDIRECT_URL = ""
+ACCOUNT_PASSWORD_RESET_CONFIRM_REDIRECT_URL = ""
