@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.db import transaction
 from reservations.models import ReservationDetails, ReservationRoomDetails, ReservationStatusLog, AttendeeList, Attendee
 from rooms.models import Calendar, DateEntry, TimeReserved
+from rooms.utils import get_conflicting_pending_reservations
 from .models import ApprovalAudit
 from events.models import Event
 from django.utils import timezone
@@ -50,37 +52,63 @@ class ReservationStatusLogAdmin(admin.ModelAdmin):
                 obj.time_stamp = timezone.now()
                 if obj.status == 'A':
                     try:
-                        reservation = obj.reservation_detail
-                        if not hasattr(reservation, 'event'):
-                            event = Event.objects.create(
-                                reservationdetails=reservation, 
-                                created_at=timezone.now()
-                                )
-                            #Now that event has been created, update the thingies in the calendar: update the models within rooom app if needed
+                        with transaction.atomic():
+                            reservation = ReservationDetails.objects.select_for_update().get(pk=obj.reservation_detail.pk)
 
-                            # Now update the calendar models in the rooms app
-                            room_detail = reservation.reservation_room_details
-                            room = room_detail.room
-                            calendar = Calendar.objects.get(room=room)
-                            date_entry, created = DateEntry.objects.get_or_create(
-                                calendar=calendar,
-                                date=room_detail.date
-                            )
-                            TimeReserved.objects.create(
-                                date_entry=date_entry,
-                                starting_time=room_detail.start_time,
-                                ending_time=room_detail.end_time,
-                                event=event
-                            )
+                            if not hasattr(reservation, 'event'):
+                                event = Event.objects.create(
+                                    reservationdetails=reservation,
+                                    created_at=timezone.now()
+                                )
+
+                                room_detail = reservation.reservation_room_details
+                                room = room_detail.room
+                                calendar = Calendar.objects.get(room=room)
+                                date_entry, _ = DateEntry.objects.get_or_create(
+                                    calendar=calendar,
+                                    date=room_detail.date
+                                )
+
+                                TimeReserved.objects.create(
+                                    date_entry=date_entry,
+                                    starting_time=room_detail.start_time,
+                                    ending_time=room_detail.end_time,
+                                    event=event
+                                )
+
+                                ApprovalAudit.objects.create(
+                                    reservation=obj.reservation_detail, 
+                                    admin=request.user,
+                                    status_choice=obj.status,
+                                    timestamp=timezone.now()
+                                )
+
+                                rivals = get_conflicting_pending_reservations(
+                                    room=room_detail.room,
+                                    date=room_detail.date,
+                                    start=room_detail.start_time,
+                                    end=room_detail.end_time,
+                                    exclude_reservation_id=reservation.pk
+                                )
+
+                                for rival in rivals:
+                                    status_log = ReservationStatusLog.objects.create(
+                                        status='D',
+                                        admin_in_charge=request.user,
+                                        time_stamp=timezone.now()
+                                    )
+                                    rival.reservation_status_log = status_log
+                                    rival.save()
+
+                                ApprovalAudit.objects.create(
+                                    reservation=rival, 
+                                    admin=request.user,
+                                    status_choice='D',
+                                    timestamp=timezone.now()
+                                )
                     except ReservationDetails.DoesNotExist:
                         pass
 
-                ApprovalAudit.objects.create(
-                    reservation=obj.reservation_detail, 
-                    admin=request.user,
-                    status_choice=obj.status,
-                    timestamp=timezone.now()
-                    )
         super().save_model(request, obj, form, change)
 
 admin.site.register(ReservationStatusLog, ReservationStatusLogAdmin)

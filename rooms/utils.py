@@ -1,4 +1,5 @@
 from rooms.models import Room, Calendar, DateEntry, TimeReserved
+from reservations.models import ReservationDetails
 
 def time_conflict(room_id, date, start_time, end_time, current_event_id=None):
     """
@@ -41,3 +42,15 @@ def get_approved_time_blocks(room_id, date):
         .select_related('date_entry__calendar', 'event')
         .order_by('starting_time')
     )
+
+def get_conflicting_pending_reservations(room, date, start, end, exclude_reservation_id=None):
+    conflicts = ReservationDetails.objects.filter(
+        reservation_room_details__room = room,
+        reservation_room_details__date = date,
+        reservation_room_details__start_time__lt = end, #lt stands for less than
+        reservation_room_details__end_time__gt = start, #gt stands for greater than
+        reservation_status_log__status = 'P' # Pending
+    )
+    if exclude_reservation_id:
+        conflicts = conflicts.exclude(pk=exclude_reservation_id)
+    return conflicts.select_related('reservation_room_details')

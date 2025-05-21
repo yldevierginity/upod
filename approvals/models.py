@@ -10,4 +10,4 @@ class ApprovalAudit(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.reservation} - {self.status_choice} by {self.admin} at {self.timestamp}"
+        return f"{self.reservation} - {self.status_choice} by {self.admin} at {self.timestamp} - {self.reservation.reservation_status_log.status}"

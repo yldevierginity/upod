@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import transaction
 from .forms import ReservationRoomDetailsForm, AttendeeForm, BaseAttendeeFormSet
 from .models import ReservationDetails, ReservationStatusLog, AttendeeList, Attendee, ReservationRoomDetails
 from rooms.models import Room
@@ -28,38 +29,35 @@ def create_reservation(request, room_id):
         #Create form instances
         attendees_formset = AttendeeFormSet(request.POST, current_user_email=request.user.email)
         roomdetails_form = ReservationRoomDetailsForm(request.POST, request.FILES)
+        roomdetails_form.instance.room = room #for schedule conflict purposes; actual room assignment to model is done within transaction.atomic block
 
         #form validation check
         if attendees_formset.is_valid() and roomdetails_form.is_valid():
             
-            #start with AttendeeList and attendees first, contextualized via the formset
-            attendee_list = AttendeeList.objects.create() #instantiate the list of attendees
-            attendees_formset.instance = attendee_list #insert individual attendees managed by the formset into the instantiated list of attendees
-            attendees_formset.save() #save the attendees within the formset to the database
+            try:
+                with transaction.atomic():
+                    attendee_list = AttendeeList.objects.create()
+                    attendees_formset.instance = attendee_list
+                    attendees_formset.save()
 
-            #attendee list has been created, save details within roomdetaills_form now along with inserting the attendee list we just made as foreign key
-            room_details = roomdetails_form.save(commit=False) #instantiate roomdetails without saving first; attendee list hasn't been added yet
-            room_details.room = room
-            room_details.attendee_list = attendee_list #attach recently saved attendees_formset now named attendee_list
-            room_details.save()
+                    room_details = roomdetails_form.save(commit=False)
+                    room_details.room = room
+                    room_details.attendee_list = attendee_list
+                    room_details.save()
 
-            # #instantiate status log
-            status_log = ReservationStatusLog.objects.create() #I don't know why we must instantiate the save into status_log, but might as well. It still saves it anyway
-                                                               #every field in this is either intentionally defaulted as null or defaulted as a certain value, no need to save
+                    status_log = ReservationStatusLog.objects.create()
 
-            # #reservation details can now be saved with children to be attached
+                    reservation_details = ReservationDetails.objects.create(
+                        organizer=request.user,
+                        reservation_status_log=status_log,
+                        reservation_room_details=room_details,
+                    )
 
-            # #I don't know the details of how users are going to be handled yet so I will comment this part for now
-            #organizer = ??? definitely not request.user due to potential manually made user entity
-            reservation_details = ReservationDetails.objects.create(
-                organizer=request.user,
-                reservation_status_log=status_log,
-                reservation_room_details=room_details,
-                #organizer=organizer, #handled later when user has been finalized
-            )            
-            messages.success(request, "Reservation form creation saved successfully!")
-            return redirect('reservation_success',
-                            reservation_details_id=reservation_details.id) #checks app's url patterns to see if there is a name 'reservation_success'; this does not go directly to function reservation_success
+                messages.success(request, "Reservation form creation saved successfully!")
+                return redirect('reservation_success', reservation_details_id=reservation_details.id)
+
+            except Exception as e:
+                messages.error(request, f"An unexpected error occurred: {str(e)}")
         else:
             messages.error(request, "There was an error with the form. Please try again.")
             return render(request, 'reservations/reservation.html', {
