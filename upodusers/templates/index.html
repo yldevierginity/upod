@@ -1,4 +1,4 @@
-{% extends "account/base_entrance.html" %}
+{% extends "layouts/base.html" %}
 {% load static %}
 {% load i18n %}
 {% load allauth %}
@@ -9,7 +9,7 @@
   {% trans "Sign In" %}
 {% endblock head_title %}
 
-{% block content %}
+{% block body %}
 <div class="header">
     <div class="ilc_logo">
         <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
@@ -101,7 +101,7 @@
         <i class="fa fa-envelope"></i> ilc.upmindanao@up.edu.ph
     </a>
 </div>
-{% endblock content %}
+{% endblock body %}
 
 {% block extra_body %}
   {{ block.super }}

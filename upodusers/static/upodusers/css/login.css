@@ -9,10 +9,10 @@
 }
 
 body{
-    /* E65952 red */
-    /* EBD448 yellow */
-    /* 36707C blue */
-    /* 9DD0D1 light blue */
+    /* E65952 red */
+    /* EBD448 yellow */
+    /* 36707C blue */
+    /* 9DD0D1 light blue */
     background-color: #ffffff;
     /* background: linear-gradient(to bottom, #E65952 50%, #EBD448, #36707C); */
     display: flex;
@@ -51,7 +51,7 @@ button{
     position: relative;
     overflow: hidden;
     width: 768px;
-    max-width: 100%;
+    max-width: 75%;
     min-height: 480px;
     margin-bottom: 120px;
 }
