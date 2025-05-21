@@ -3,7 +3,6 @@ from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError #for the FileField part of ReservationRoomDetails
-from rooms.models import Room
 
 #Imports to be added when existent
 
@@ -32,12 +31,18 @@ class Attendee(models.Model):
     class Meta:
         unique_together = ('attendee_list', 'user')
 
+    def __str__(self):
+        return f"{self.user} in {self.attendee_list}"
+
 #Attendee_List
 class AttendeeList(models.Model):
     #Relationship to Reservation_Room_Details is handled in that class
     #Relationship to the multiple attendees are defined in that class
     #I made this to prevent many to many relationships
     pass
+
+    def __str__(self):
+        return f"Attendee List #{self.pk}; attached to {self.reservation_room_detail}"
 
 #This is what the internet said on how to deal with FileFields. Will test it later
 #===================================================================================
@@ -60,7 +65,7 @@ def endorsement_upload_path(instance, filename):
 #Reservation_Room_Details
 class ReservationRoomDetails(models.Model):
     cover_image = models.ImageField(upload_to='event_images/', blank=True, null=True)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE) #this is supposed to get the value dynamically from rooms app
+    room = models.ForeignKey('rooms.Room', on_delete=models.CASCADE) #this is supposed to get the value dynamically from rooms app
     start_time = models.TimeField()
     end_time = models.TimeField()
     date = models.DateField()
@@ -75,6 +80,9 @@ class ReservationRoomDetails(models.Model):
     @property
     def number_of_attendees(self): #this stands in for num of pax (I don't even know what pax is)
         return self.attendee_list.listings.count()
+    
+    def __str__(self):
+        return f"{self.event_name} on {self.date} [{self.start_time}-{self.end_time}] in {self.room}"
 
 #Reservation_Status_Log
 class ReservationStatusLog(models.Model):
@@ -85,12 +93,18 @@ class ReservationStatusLog(models.Model):
     ]
 
     # admin_in_charge = models.OneToOneField('admin', on_delete=models.SET_NULL, null=True, blank=True) # commented this out for testing purposes, will use integer field for now
-    admin_in_charge = models.IntegerField(null=True, blank=True)
+    admin_in_charge = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     time_stamp = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Status: {self.get_status_display()} by {self.admin_in_charge} at {self.time_stamp}"
 
 #Reservation_Details
 class ReservationDetails(models.Model):
     organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reservations", null=False, blank=False)
     reservation_room_details = models.OneToOneField('ReservationRoomDetails', on_delete=models.CASCADE, related_name="reservation_detail")
     reservation_status_log = models.OneToOneField('ReservationStatusLog', on_delete=models.CASCADE, related_name="reservation_detail")
+
+    def __str__(self):
+        return f"Reservation by: {self.organizer} | For: {self.reservation_room_details}"

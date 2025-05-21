@@ -30,7 +30,7 @@ class TimeReserved(models.Model):
     date_entry = models.ForeignKey(DateEntry, on_delete=models.CASCADE, related_name="time_reservations")
     starting_time = models.TimeField()
     ending_time = models.TimeField()
-    #one to one field with event later
+    event = models.OneToOneField('events.Event', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.date_entry} [{self.starting_time} - {self.ending_time}]"

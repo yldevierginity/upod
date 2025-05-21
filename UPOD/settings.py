@@ -144,6 +144,7 @@ LANGUAGE_CODE = 'en-us'
 
 USE_I18N = True
 
+TIME_ZONE = 'Asia/Manila'
 USE_TZ = True
 
 
@@ -178,3 +179,4 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_ADAPTER = 'upodusers.adapters.CustomSocialAccountAdapter'
+
