@@ -21,7 +21,6 @@ body{
     flex-direction: column;
 }
 .header {
-    background: linear-gradient(to right, #59cfe7 10%,#ffc506, #E65952);
     width: 100%; 
     margin-bottom: 50px;
     font-size: 23px;
@@ -48,6 +47,17 @@ button{
     background-color: #fff;
     border-radius: 30px;
     box-shadow: 3px 3px 4px #EBD448, -3px -3px 4px #3FADBE , 3px -3px 4px #59cfe7 , -3px 3px 4px #ffc506 ;
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 75%;
+    min-height: 480px;
+    margin-bottom: 120px;
+}
+.loginContainer{
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 3px 3px 4px #fff, -3px -3px 4px #fff , 3px -3px 4px #fff , -3px 3px 4px #fff ;
     position: relative;
     overflow: hidden;
     width: 768px;

@@ -51,7 +51,7 @@
             {{ redirect_field }}
             <button 
                 type="submit" 
-                hx-post="{% url 'account_login' %}" 
+                hx-post="{% url 'account_login' %}?next=/dashboard/" 
                 hx-target="#container" 
                 hx-swap="innerHTML">Sign In</button>
             {% endif %}

@@ -1,83 +1,98 @@
-{% extends "account/base_entrance.html" %}
+{% extends "layouts/base.html" %}
+{% load static %}
 {% load i18n %}
-{% load allauth account %}
+{% load allauth %}
+{% load account %}
+{% load socialaccount %}
+
 {% block head_title %}
   {% trans "Sign In" %}
 {% endblock head_title %}
 
-{% block content %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow">
-        <div class="card-body">
-          {% element h1 %}
-            {% trans "Sign In" %}
-          {% endelement %}
+{% block body %}
 
-          {% if not SOCIALACCOUNT_ONLY %}
-            {% setvar link %}
-              <a href="{{ signup_url }}">
-            {% endsetvar %}
+<div class="loginContainer" id="loginContainer">
+    <!-- Sign In Panel -->
+    <div class="form-container sign-in">
+        <form method="POST" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            <h1>{% trans "Sign In" %}</h1>
 
-            {% setvar end_link %}
-              </a>
-            {% endsetvar %}
-
-            {% element p %}
-              {% blocktranslate %}If you have not created an OTEN account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
-            {% endelement %}
-
-            {% url 'account_login' as login_url %}
-            {% element form form=form method="post" action=login_url tags="entrance,login" %}
-              {% slot body %}
-                {% csrf_token %}
-                <div class="mb-3">
-                  {% element fields form=form unlabeled=True %}
-                  {% endelement %}
-                </div>
-                {{ redirect_field }}
-              {% endslot %}
-              {% slot actions %}
-                {% element button type="submit" tags="prominent,login" %}
-                  {% trans "Sign In" %}
-                {% endelement %}
-              {% endslot %}
-            {% endelement %}
-          {% endif %}
-
-          {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
-            <hr class="my-4" />
-            <div class="d-grid gap-2">
-              {% if PASSKEY_LOGIN_ENABLED %}
-                {% element button type="submit" form="mfa_login" id="passkey_login" tags="prominent,login,outline,primary" %}
-                  {% trans "Sign in with a passkey" %}
-                {% endelement %}
-              {% endif %}
-              {% if LOGIN_BY_CODE_ENABLED %}
-                {% element button href=request_login_code_url tags="prominent,login,outline,primary" %}
-                  {% trans "Send me a sign-in code" %}
-                {% endelement %}
-              {% endif %}
+            {% if not SOCIALACCOUNT_ONLY %}
+            <div class="social-icons">
+                <a href="{% provider_login_url 'google' %}?next=/dashboard/" class="google-btn">
+                    <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
+                </a>
             </div>
-          {% endif %}
+            <span>{% trans "or use your email password" %}</span>
 
-          {% if SOCIALACCOUNT_ENABLED %}
-            <hr class="my-4" />
-            {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-          {% endif %}
-        </div>
-      </div>
+            <!-- Error messages -->
+            {% if form.errors %}
+                <div class="error-messages">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <input type="email" name="login" placeholder="{% trans 'Email' %}" required value="{{ form.login.value|default:'' }}"
+                  class="{% if form.login.errors %}error{% endif %}">
+            {% if form.login.errors %}
+                <div class="field-error">{{ form.login.errors.0 }}</div>
+            {% endif %}
+
+            <input type="password" name="password" placeholder="{% trans 'Password' %}" required
+                  class="{% if form.password.errors %}error{% endif %}">
+            {% if form.password.errors %}
+                <div class="field-error">{{ form.password.errors.0 }}</div>
+            {% endif %}
+
+            {{ redirect_field }}
+            <button 
+                type="submit" 
+                hx-post="{% url 'account_login' %}?next=/dashboard/" 
+                hx-target="#container" 
+                hx-swap="innerHTML">{% trans "Sign In" %}</button>
+            {% endif %}
+        </form>
     </div>
-  </div>
+
+    <!-- Toggle Panels -->
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
+                <div class="uplogo">
+                    <img src="{% static 'upodusers/images/uplogo.png' %}" alt="UP Logo">
+                </div>
+                <h1>Welcome to UPOD!</h1>
+                <p>Explore. Engage. Excel. Together at UP Mindanao ILC</p>
+                <button id="login"
+                        class="hidden" 
+                        type="button"
+                        hx-on="click: document.getElementById('container').classList.remove('active')">{% trans "Sign In" %}
+                </button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
+                <div class="uplogo">
+                    <img src="{% static 'upodusers/images/uplogo.png' %}" alt="UP Logo">
+                </div>
+                <h1>Welcome UP Mindanao Student!</h1>
+                <p>{% trans "Don't have an account yet? Sign up now!" %}</p>
+                <a href="{% url 'account_signup' %}">
+                  <button class="hidden" id="register" type="button">
+                      {% trans "Sign Up" %}
+                  </button>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock content %}
+
+{% endblock body %}
 
 {% block extra_body %}
   {{ block.super }}
-  {% if PASSKEY_LOGIN_ENABLED %}
-    {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
-  {% endif %}
-{% endblock %}
-
+  <script src="{% static 'upodusers/js/script.js' %}"></script>
+{% endblock extra_body %}
 
