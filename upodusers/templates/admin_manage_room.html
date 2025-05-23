@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../static/user_nav.css" />
+  <link rel="stylesheet" href="../static/admin_manage_room.css" />
+  <link rel="icon" href="../static/UPOD.png" type="UPOD">
+  <script src="https://unpkg.com/htmx.org@2.0.4" 
+  integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+  crossorigin="anonymous"></script>
+  <title>UPOD</title>
+</head>
+<body>
+    <nav>
+      <div class="nav-logo"><a href="admin_landing.html">UPOD</a></div>
+      <ul class="nav-links">
+        <li class="landing"><a href="../templates/admin_landing.html">Home</a></li>
+        <li class="registration"><a href="../templates/admin_manage_room.html">Manage</a></li>
+        <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
+        
+          <div class="profile-dropdown">
+              <a href="../templates/profile.html" title="My Profile">
+              <i class="fa-regular fa-circle-user"></i>
+              </a>
+            <ul class="dropdown-menu">
+              <li><a href="../templates/admin_profile.html">View Admin</a></li>
+              <li class="logout">
+                <a  hx-post="/logout/" 
+                hx-target="body" 
+                hx-swap="outerHTML" 
+                hx-confirm="Are you sure you want to log out?">Logout</a>
+              </li>
+            </ul>
+          </div>
+      </ul>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>Room Management</h1>
+            <p class="subtitle">Review and manage room booking requests</p>
+        </header>
+
+        <div class="rooms-container">
+            <!-- Room Card 1 -->
+            <div class="room-card">
+                <div class="room-image"></div>
+                
+                <div class="room-details">
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <strong>Date:</strong> May 20, 2025
+                        </div>
+                        <div class="detail-item">
+                            <strong>Time:</strong> 10:00 AM
+                        </div>
+                        <div class="detail-item">
+                            <strong>Attendees:</strong> 100
+                        </div>
+                        <div class="detail-item">
+                            <strong>Location:</strong> UP Mindanao AVR
+                        </div>
+                        <div class="detail-item">
+                            <strong>Organizer:</strong> SPARCS
+                        </div>
+                        <div class="detail-item">
+                            <strong>Reference ID:</strong> EVT12345
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-notes">
+                    <h2>Admin Notes</h2>
+                    <p>Awaiting your action.</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn accept-btn">Accept</button>
+                    <button class="action-btn deny-btn">Deny</button>
+                </div>
+            </div>
+
+            <!-- Room Card 2 -->
+            <div class="room-card">
+                <div class="room-image"></div>
+                
+                <div class="room-details">
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <strong>Date:</strong> May 22, 2025
+                        </div>
+                        <div class="detail-item">
+                            <strong>Time:</strong> 2:00 PM
+                        </div>
+                        <div class="detail-item">
+                            <strong>Attendees:</strong> 75
+                        </div>
+                        <div class="detail-item">
+                            <strong>Location:</strong> UP Mindanao Conference Room
+                        </div>
+                        <div class="detail-item">
+                            <strong>Organizer:</strong> Student Council
+                        </div>
+                        <div class="detail-item">
+                            <strong>Reference ID:</strong> EVT12346
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-notes">
+                    <h2>Admin Notes</h2>
+                    <p>All requirements submitted. Ready for review.</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn accept-btn">Accept</button>
+                    <button class="action-btn deny-btn">Deny</button>
+                </div>
+            </div>
+
+            <!-- Room Card 3 -->
+            <div class="room-card">
+                <div class="room-image"></div>
+                
+                <div class="room-details">
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <strong>Date:</strong> May 25, 2025
+                        </div>
+                        <div class="detail-item">
+                            <strong>Time:</strong> 9:00 AM
+                        </div>
+                        <div class="detail-item">
+                            <strong>Attendees:</strong> 150
+                        </div>
+                        <div class="detail-item">
+                            <strong>Location:</strong> UP Mindanao Auditorium
+                        </div>
+                        <div class="detail-item">
+                            <strong>Organizer:</strong> Engineering Society
+                        </div>
+                        <div class="detail-item">
+                            <strong>Reference ID:</strong> EVT12347
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-notes">
+                    <h2>Admin Notes</h2>
+                    <p>Large event - requires additional security arrangements.</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn accept-btn">Accept</button>
+                    <button class="action-btn deny-btn">Deny</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

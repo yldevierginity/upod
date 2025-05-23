@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/user_nav.css" />
+    <link rel="icon" href="../static/UPOD.png" type="UPOD">
+    <script src="https://unpkg.com/htmx.org@2.0.4" 
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+    crossorigin="anonymous"></script>
+    <title>UPOD</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-logo"><a href="landing.html">UPOD</a></div>
+      <ul class="nav-links">
+        <li class="landing"><a href="../templates/landing.html">Home</a></li>
+        <li class="registration"><a href="../templates/user_room.html">Registration</a></li>
+        <li class="events"><a href="../templates/events.html">Events</a></li>
+        <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
+        
+          <div class="profile-dropdown">
+              <a href="../templates/user_profile.html" title="My Profile">
+              <i class="fa-regular fa-circle-user"></i>
+              </a>
+            <ul class="dropdown-menu">
+              <li><a href="../templates/user_profile.html">View Profile</a></li>
+              <li class="logout">
+                <a  hx-post="/logout/" 
+                hx-target="body" 
+                hx-swap="outerHTML" 
+                hx-confirm="Are you sure you want to log out?">Logout</a>
+              </li>
+            </ul>
+          </div>
+      </ul>
+    </nav>
+  </body>
+</html>

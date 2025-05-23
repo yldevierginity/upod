@@ -12,7 +12,7 @@
   --max-width: 1200px;
 }
 
-* {
+*{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -30,36 +30,22 @@ nav {
   align-items: center;
   box-shadow: #091969 0px 0px 18px 2px;
   justify-content: space-between;
-    
+
   @media (max-width: 768px) {
-    nav {
     flex-direction: column;
     height: auto;
     align-items: flex-start;
     padding: 10px;
-  }
 
-  .nav-logo a {
-    font-size: 40px;
-    padding: 0;
-  }
+    .nav-logo a {
+      font-size: 40px;
+      padding: 0;
+    }
 
-  .nav-links {
-    flex-direction: column;
-    width: 100%;
-    padding: 0;
-  }
-
-  .nav-links a {
-    justify-content: flex-start;
-    padding: 10px 20px;
-    width: 100%;
-  }
-
-  .nav__btn {
-    margin-bottom: 1rem;
-    width: 100%;
-    text-align: center;
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      padding: 0;
     }
   }
 }
@@ -208,103 +194,5 @@ nav {
 .nav__btn:hover {
   transform: scale3d(1.05, 1.05, 1);
   box-shadow: 2px 3px 0px 1px #1f1c24;
-}
 
-.qr-container{
-  max-width: 500px;
-  margin: 0 auto; 
-  box-shadow: 3px 3px 4px var(--primary-color), 
-              15px 15px 30px #e3c9c9,
-             -15px -15px 30px #ffffff,
-              -3px 3px 4px var(--primary-color-dark);
-  background-color: #f3f4e4;
-  border-radius: 15px; 
-  margin-top: 6rem;
-  padding: 2rem 1rem 2rem 1rem;
-  text-align: center; 
-}
-
-
-h1{
-  font-size: 34px;
-  color: #070403;
-  margin-bottom: 40px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.camera-btn{
-  text-align: center;
-}
-
-button {
-  --color: #560bad;
-  font-family: inherit;
-  display: inline-block;
-  width: 8em;
-  height: 2.6em;
-  line-height: 2.5em;
-  margin: 20px;
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  border: 2px solid var(--color);
-  transition: color 0.5s;
-  z-index: 1;
-  font-size: 17px;
-  border-radius: 6px;
-  font-weight: 500;
-  color: var(--color);
-}
-
-button:before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  background: var(--color);
-  height: 150px;
-  width: 200px;
-  border-radius: 50%;
-}
-
-button:hover {
-  color: #fff;
-  transform: scaleX(1.05) scaleY(1.03);
-}
-
-button:before {
-  top: 100%;
-  left: 100%;
-  transition: all 0.7s;
-}
-
-button:hover:before {
-  top: -30px;
-  left: -30px;
-}
-
-button:active:before {
-  background: #3a0ca3;
-  transition: background 0s;
-}
-
-.camera-btn i {
-  padding-right:2px;
-}
-.camera-btn:hover i{
-  color: #ffffff;
-}
-
-
-@media (max-width: 600px) {
-  .qr-buttons {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .upload-label,
-  .camera-btn {
-    width: 100%;
-    text-align: center;
-  }
 }

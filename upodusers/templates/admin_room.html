@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../static/user_nav.css" />
+  <link rel="stylesheet" href="../static/admin_room.css" />
+  <link rel="icon" href="../static/UPOD.png" type="UPOD">
+  <script src="https://unpkg.com/htmx.org@2.0.4" 
+  integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+  crossorigin="anonymous"></script>
+  <title>UPOD</title>
+</head>
+<body>
+    <nav>
+      <div class="nav-logo"><a href="admin_landing.html">UPOD</a></div>
+      <ul class="nav-links">
+        <li class="landing"><a href="../templates/admin_landing.html">Home</a></li>
+        <li class="registration"><a href="../templates/admin_manage_room.html">Manage</a></li>
+        <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
+        
+          <div class="profile-dropdown">
+              <a href="../templates/profile.html" title="My Profile">
+              <i class="fa-regular fa-circle-user"></i>
+              </a>
+            <ul class="dropdown-menu">
+              <li><a href="../templates/admin_profile.html">View Admin</a></li>
+              <li class="logout">
+                <a  hx-post="/logout/" 
+                hx-target="body" 
+                hx-swap="outerHTML" 
+                hx-confirm="Are you sure you want to log out?">Logout</a>
+              </li>
+            </ul>
+          </div>
+      </ul>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>ILC Rooms</h1>
+        </header>
+        
+        <main class="rooms-container">
+            <div class="room-card">
+                <div class="room-image" style="background-color: #5c48ee;">
+                    <span class="room-number">Room 101</span>
+                </div>
+                <div class="room-details">
+                    <h2>Conference Room A</h2>
+                    <p>Capacity: 20 people</p>
+                    <p>Features: Projector, Whiteboard, Video Conferencing</p>
+                    <button class="register-btn" onclick="window.location.href='manage_room.html'">Manage Room</button>
+                </div>
+            </div>
+            
+            <div class="room-card">
+                <div class="room-image" style="background-color: #3FADBE;">
+                    <span class="room-number">Room 103</span>
+                </div>
+                <div class="room-details">
+                    <h2>Workshop Space</h2>
+                    <p>Capacity: 30 people</p>
+                    <p>Features: Sound System, Projector, Flexible Seating</p>
+                    <button class="register-btn" onclick="window.location.href='manage_room.html'">Manage Room</button>
+                </div>
+            </div>
+            
+            <div class="room-card">
+                <div class="room-image" style="background-color: #E65952;">
+                    <span class="room-number">Room 104</span>
+                </div>
+                <div class="room-details">
+                    <h2>Executive Suite</h2>
+                    <p>Capacity: 8 people</p>
+                    <p>Features: Premium Furniture, Video Conferencing, Catering</p>
+                    <button class="register-btn" onclick="window.location.href='manage_room.html'">Manage Room</button>
+                </div>
+            </div>
+             <div class="room-card">
+                <div class="room-image" style="background-color: #EBD448;">
+                    <span class="room-number">Room 103</span>
+                </div>
+                <div class="room-details">
+                    <h2>Workshop Space</h2>
+                    <p>Capacity: 30 people</p>
+                    <p>Features: Sound System, Projector, Flexible Seating</p>
+                    <button class="register-btn" onclick="window.location.href='manage_room.html'">Manage Room</button>
+                </div>
+            </div>
+             <div class="room-card">
+                <div class="room-image" style="background-color: #E65952;">
+                    <span class="room-number">Room 104</span>
+                </div>
+                <div class="room-details">
+                    <h2>Executive Suite</h2>
+                    <p>Capacity: 8 people</p>
+                    <p>Features: Premium Furniture, Video Conferencing, Catering</p>
+                </div>
+            </div>
+              <div class="room-card">
+                <div class="room-image" style="background-color: #5c48ee;">
+                    <span class="room-number">Room 101</span>
+                </div>
+                <div class="room-details">
+                    <h2>Conference Room A</h2>
+                    <p>Capacity: 20 people</p>
+                    <p>Features: Projector, Whiteboard, Video Conferencing</p>
+                </div>
+            </div>
+            
+            
+        </main>
+        
+        <!-- Registration form will be loaded here when a register button is clicked -->
+        <div id="registration-form"></div>
+    </div>
+</body>
+</html>

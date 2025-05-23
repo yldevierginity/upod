@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import url('https://fonts.cdnfonts.com/css/lumanosimo');
+@import url('https://fonts.cdnfonts.com/css/unbounded');
+:root {
+  --indigo: #5c48ee;
+  --navy: #0f1e6a;
+  --teal: #36707C;
+  --red: #E65952;
+  --yellow: #EBD448;
+  --blue: #3FADBE;
+  --aqua: #9DD0D1;
+  --gray-light: #f9fafb;
+  --gray-dark: #1f2937;
+  --white: #ffffff;
+}
+
+.event-container {
+    max-width: 800px;
+    width: 100%;
+    margin: 40px auto 0 auto; 
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.3);
+    padding: 2.5rem;
+    box-sizing: border-box;
+
+}
+
+.event-container:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: var(--indigo);
+  margin-bottom: 0.4rem;
+}
+
+header p {
+  color: var(--gray-dark);
+  opacity: 0.7;
+  font-size: 1rem;
+}
+
+.event-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.event-details div {
+  line-height: 1.6;
+  color: var(--navy);
+}
+
+.event-details strong {
+  color: var(--teal);
+}
+
+.event-notes {
+  margin-bottom: 2rem;
+}
+
+.event-notes h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--teal);
+}
+
+.event-notes p {
+  line-height: 1.6;
+  color: var(--gray-dark);
+  font-size: 0.95rem;
+}
+
+.status-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #fef3c7; /* Light yellow */
+  color: #92400e;            /* Dark amber */
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.status-icon {
+  flex-shrink: 0;
+}
+

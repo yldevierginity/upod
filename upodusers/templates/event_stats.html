@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/user_nav.css" />
+    <link rel="stylesheet" href="../static/event_styles.css" />
+    <link rel="icon" href="../static/UPOD.png" type="UPOD">
+    <script src="https://unpkg.com/htmx.org@2.0.4" 
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+    crossorigin="anonymous"></script>
+    <title>UPOD</title>
+</head>
+<body>
+  <nav>
+      <div class="nav-logo"><a href="landing.html">UPOD</a></div>
+      <ul class="nav-links">
+        <li class="landing"><a href="../templates/landing.html">Home</a></li>
+        <li class="registration"><a href="../templates/user_room.html">Registration</a></li>
+        <li class="events"><a href="../templates/event_stats.html">Events</a></li>
+        <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
+        
+          <div class="profile-dropdown">
+              <a href="../templates/user_profile.html" title="My Profile">
+              <i class="fa-regular fa-circle-user"></i>
+              </a>
+            <ul class="dropdown-menu">
+              <li><a href="../templates/user_profile.html">View Profile</a></li>
+              <li class="logout">
+                <a  hx-post="/logout/" 
+                hx-target="body" 
+                hx-swap="outerHTML" 
+                hx-confirm="Are you sure you want to log out?">Logout</a>
+              </li>
+            </ul>
+          </div>
+      </ul>
+    </nav>
+  <main class="event-container">
+    <header class="event-header">
+      <h1>Pending Requests</h1>
+      <p class="subheading">Awaiting admin approval</p>
+    </header>
+
+    <section class="event-details">
+      <div class="event-info-group">
+        <p><strong>Date:</strong> May 20, 2025</p>
+        <p><strong>Time:</strong> 10:00 AM</p>
+        <p><strong>Attendees:</strong> 100</p>
+      </div>
+      <div class="event-info-group">
+        <p><strong>Location:</strong> UP Mindanao AVR</p>
+        <p><strong>Organizer:</strong> SPARCS</p>
+        <p><strong>Reference ID:</strong> EVT12345</p>
+      </div>
+    </section>
+
+    <section class="event-notes">
+      <h2>Notes</h2>
+      <p>This request is still under review.</p>
+    </section>
+
+    <section class="status-section">
+    <div class="status-badge pending">
+    <svg xmlns="http://www.w3.org/2000/svg" class="status-icon" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-12a.75.75 0 00-1.5 0v5a.75.75 0 00.36.64l3 1.5a.75.75 0 10.68-1.34L10.75 11V6z" clip-rule="evenodd" />
+    </svg>
+    <span>Status: Pending Approval</span>
+    </div>
+    </section>
+
+  </main>
+</body>
+</html>
