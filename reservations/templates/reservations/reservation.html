@@ -9,87 +9,136 @@
             return confirm("Are you sure you want to submit this reservation?");
         }
     </script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'reservations/css/reservation.css' %}">
 </head>
 <body>
-    <h1>Create a Reservation for {{ room.roomlabel }}</h1>
+    <div class="container">
+            <h1>Reservation for {{ room.roomlabel }}</h1>
 
-    <!-- Display success or error messages -->
-    {% if roomdetails_form.errors %}
-        <ul style="color:red;">
-        {% for field in roomdetails_form %}
-            {% for error in field.errors %}
-                <li>{{ field.label }}: {{ error }}</li>
-            {% endfor %}
-        {% endfor %}
-        {% for error in roomdetails_form.non_field_errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% if attendees_formset.non_form_errors %}
-        <ul style="color:red;">
-        {% for error in attendees_formset.non_form_errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% for form in attendees_formset %}
-        {% if form.errors %}
+        <!-- Display success or error messages -->
+        {% if roomdetails_form.errors %}
             <ul style="color:red;">
-            {% for field in form %}
+            {% for field in roomdetails_form %}
                 {% for error in field.errors %}
                     <li>{{ field.label }}: {{ error }}</li>
                 {% endfor %}
             {% endfor %}
-            {% for error in form.non_field_errors %}
+            {% for error in roomdetails_form.non_field_errors %}
                 <li>{{ error }}</li>
             {% endfor %}
             </ul>
         {% endif %}
-    {% endfor %}
 
-    <form method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmission()">
-        {% csrf_token %}
+        {% if attendees_formset.non_form_errors %}
+            <ul style="color:red;">
+            {% for error in attendees_formset.non_form_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
 
-        <!-- Room Details Form -->
-        <fieldset>
-            <legend>Room Details</legend>
-            {{ roomdetails_form.as_p }}
-        </fieldset>
-        
-        <!-- Attendee Formset -->
-        <fieldset>
-            <legend>Attendee Information</legend>
-            {{ attendees_formset.management_form }}
-            <div>
-                {% for form in attendees_formset %}
-                    <div>
-                        <label for="{{ form.user.id_for_label }}">User:</label>
-                        {{ form.user }}
-                        {% if form.errors %}
-                            <div style="color:red;">
-                                {% for field_name, field_errors in form.errors.items %}
-                                    {% for error in field_errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
+        {% for form in attendees_formset %}
+            {% if form.errors %}
+                <ul style="color:red;">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
                 {% endfor %}
-            </div>
-        </fieldset>
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
 
-        <!-- Submit button -->
-        <div>
-            <button type="submit">Submit Reservation</button>
-        </div>
-    </form>
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
-        Back to Room Selection
-    </button>
+        <form method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmission()">
+            {% csrf_token %}
+
+            <fieldset class="fieldset">
+                <h1>Event Details</h1>
+                <p>
+                    {{ roomdetails_form.event_name.label_tag}}
+                    {{ roomdetails_form.event_name }}
+                    {{ roomdetails_form.event_name.errors }}
+                </p>
+                <p>
+                    {{ roomdetails_form.event_description.label_tag}}
+                    {{ roomdetails_form.event_description }}
+                    {{ roomdetails_form.event_description.errors }}
+                </p>
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <h1>Schedule</h1>
+                <p>
+                    {{ roomdetails_form.start_time.label_tag}}
+                    {{ roomdetails_form.start_time }}
+                    {{ roomdetails_form.start_time.errors }}
+                </p>
+                <p>
+                    {{ roomdetails_form.end_time.label_tag}}
+                    {{ roomdetails_form.end_time }}
+                    {{ roomdetails_form.end_time.errors }}
+                </p>
+                <p>
+                    {{ roomdetails_form.date.label_tag}}
+                    {{ roomdetails_form.date }}
+                    {{ roomdetails_form.date.errors }}
+                </p>
+            </fieldset>
+            
+            <!-- Attendee Formset -->
+            <fieldset>
+                <h1>Attendee Information</h1>
+                {{ attendees_formset.management_form }}
+                <div>
+                    {% for form in attendees_formset %}
+                        <div>
+                            <label for="{{ form.user.id_for_label }}">User Email:</label>
+                            {{ form.user }}
+                            {% if form.errors %}
+                                <div style="color:red;">
+                                    {% for field_name, field_errors in form.errors.items %}
+                                        {% for error in field_errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <h1>Letter Of Endorsement</h1>
+                <p>
+                    {{ roomdetails_form.letter_of_endorsement.label_tag}}
+                    {{ roomdetails_form.letter_of_endorsement }}
+                    {{ roomdetails_form.letter_of_endorsement.errors }}
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <h1>Cover Image</h1>
+                <p>
+                    {{ roomdetails_form.cover_image.label_tag}}
+                    {{ roomdetails_form.cover_image }}
+                    {{ roomdetails_form.cover_image.errors }}
+                </p>
+            </fieldset>
+
+            <!-- Submit button -->
+            <div>
+                <button type="submit">Submit Reservation</button>
+            </div>
+        </form>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
+            Back to Room Selection
+        </button>
+    </div>
 
 </body>
 </html>
