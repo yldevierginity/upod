@@ -4,16 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'rooms/css/room.css' %}">
 </head>
 <body>
-    {% for room in rooms %}
-    <div class="room-card" style="border: 1px solid #ccc; padding: 16px; margin: 10px;">
+
+    <div class="container">
+        <header>
+                <h1>ILC Rooms</h1>
+        </header>
+
+        <main class="rooms-container">
+            {% for room in rooms %}
+                <div class="room-card">
+                    <div class="room-image" style="background-color: #5c48ee">
+                        <span class="room-number">{{ room.roomlabel }}</span>
+                    </div>
+                    <div class="room-details">
+                        <h2>{{ room.roomlabel }}</h2>
+                        <p>Capacity: {{ room.capacity }}</p>
+                        <a href="{% url 'create_reservation' room.id %}">
+                        <button class="register-btn" type="button">Reserve Room</button>
+                    </a>    
+                    </div>    
+                </div>
+            {% endfor %}
+        </main>
+    </div>
+        
+
+    {% comment %} {% for room in rooms %}
+    <div class="room-card">
         <h3>{{ room.roomlabel }}</h3>
         <p>Capacity: {{ room.capacity }}</p>
         <a href="{% url 'create_reservation' room.id %}">
             <button type="button">Reserve {{ room.roomlabel }}</button>
         </a>        
     </div>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
+
+    {% comment %} <main class="rooms-container">
+            <div class="room-card">
+                <div class="room-image" style="background-color: #5c48ee;">
+                    <span class="room-number">Room 101</span>
+                </div>
+                <div class="room-details">
+                    <h2>Conference Room A</h2>
+                    <p>Capacity: 20 people</p>
+                    <p>Features: Projector, Whiteboard, Video Conferencing</p>
+                    <button class="register-btn" onclick="window.location.href='user_status_r1.html'">Register Event</button>
+                </div>
+            </div> {% endcomment %}
 </body>
 </html>

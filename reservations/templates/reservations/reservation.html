@@ -232,13 +232,14 @@
             </fieldset>
 
             <!-- Submit button --> 
-            <div>
-                <button type="submit">Submit Reservation</button>
+            <div class="buttonwrapper">
+                <button type="button" class="register-btn" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
+                    Back to Room Selection
+                </button>
+                <button type="submit" class="register-btn">Submit Reservation</button>
             </div>
         </form>
-        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
-            Back to Room Selection
-        </button>
+        
     </div>
 
 </body>

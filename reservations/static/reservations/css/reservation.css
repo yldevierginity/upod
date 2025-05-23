@@ -12,7 +12,8 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  font-family: Arial;
   background-color: var(--gray-light);
   color: var(--dark-blue);
   margin: 0;
@@ -156,9 +157,15 @@ input[type="email"]{
   font-weight: bold;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
+}*/
+
+.buttonwrapper {
+    display: flex;
+    justify-content: end;
+    gap: 1em;
 }
 
-.register-btn {
+button.register-btn {
   background-color: var(--primary);
   color: var(--white);
   padding: 0.6rem 1.2rem;
@@ -169,10 +176,11 @@ input[type="email"]{
   transition: background-color 0.3s ease;
 }
 
-.register-btn:hover {
+button.register-btn:hover {
   background-color: var(--dark-blue);
 }
 
+/*
 .drop-zone {
   padding: 1rem;
   border: 2px dashed var(--teal);
