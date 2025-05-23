@@ -2,16 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="stylesheet" href="../static/user_nav.css" />
-  <link rel="stylesheet" href="../static/admin_manage_room.css" />
-  <link rel="icon" href="../static/UPOD.png" type="UPOD">
-  <script src="https://unpkg.com/htmx.org@2.0.4" 
-  integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
-  crossorigin="anonymous"></script>
-  <title>UPOD</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/admin_manage_room.css" />
+    <link rel="stylesheet" href="../static/user_nav.css">
+    <link rel="icon" href="../static/UPOD.png" type="UPOD">
+    <script src="https://unpkg.com/htmx.org@2.0.4" 
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+    crossorigin="anonymous"></script>
+    <title>UPOD</title>
+    <style>
+        /* Additional styles for accepted state using existing CSS variables */
+        .status-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--white);
+            background-color: #3bb371;
+            z-index: 10;
+        }
+        .room-card {
+            position: relative;
+        }
+        .status-message {
+            background-color: rgba(60, 173, 190, 0.1);
+            border: 2px solid #3bb371;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #3bb371;
+            margin-bottom: 1rem;
+        }
+        .back-btn {
+            background-color: var(--teal);
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 25px;
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        .back-btn:hover {
+            background-color: #2a5a64;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(54, 112, 124, 0.3);
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -19,14 +65,13 @@
       <ul class="nav-links">
         <li class="landing"><a href="../templates/admin_landing.html">Home</a></li>
         <li class="registration"><a href="../templates/admin_manage_room.html">Manage</a></li>
-        
-        
+
           <div class="profile-dropdown">
-              <a href="../templates/profile.html" title="My Profile">
+              <a href="../templates/admin_profile.html" title="My Profile">
               <i class="fa-regular fa-circle-user"></i>
               </a>
             <ul class="dropdown-menu">
-              <li><a href="../templates/admin_profile.html">View Admin</a></li>
+              <li><a href="../templates/admin_landing.html">View Profile</a></li>
               <li class="logout">
                 <a  hx-post="/logout/" 
                 hx-target="body" 
@@ -40,12 +85,12 @@
     <div class="container">
         <header>
             <h1>Room Management</h1>
-            <p class="subtitle">Review and manage room booking requests</p>
+            <p class="subtitle">Accepted room booking requests</p>
         </header>
-
         <div class="rooms-container">
             <!-- Room Card 1 -->
             <div class="room-card">
+                <div class="status-badge">ACCEPTED</div>
                 <div class="room-image"></div>
                 
                 <div class="room-details">
@@ -70,20 +115,21 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="admin-notes">
                     <h2>Admin Notes</h2>
-                    <p>Awaiting your action.</p>
+                    <p>Request has been approved. The organizer has been notified and the room is now reserved for the specified date and time. All necessary arrangements have been confirmed.</p>
                 </div>
-
+                <div class="status-message">
+                    Request Accepted Successfully
+                </div>
                 <div class="action-buttons">
-                    <button class="action-btn accept-btn" onclick="window.location.href='manage_room_accepted.html'">Accept</button>
-                    <button class="action-btn deny-btn" onclick="window.location.href='manage_room_denied.html'">Deny</button>
+                    <button class="back-btn" onclick="window.location.href='admin_manage_room.html'">Back to Management</button>
                 </div>
             </div>
-
+            
             <!-- Room Card 2 -->
             <div class="room-card">
+                <div class="status-badge">ACCEPTED</div>
                 <div class="room-image"></div>
                 
                 <div class="room-details">
@@ -108,20 +154,21 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="admin-notes">
                     <h2>Admin Notes</h2>
-                    <p>All requirements submitted. Ready for review.</p>
+                    <p>Request has been approved. All requirements were properly submitted and reviewed. The organizer has been notified and the conference room is now reserved for the specified date and time.</p>
                 </div>
-
+                <div class="status-message">
+                    Request Accepted Successfully
+                </div>
                 <div class="action-buttons">
-                    <button class="action-btn accept-btn" onclick="window.location.href='manage_room_accepted.html'">Accept</button>
-                    <button class="action-btn deny-btn" onclick="window.location.href='manage_room_denied.html'">Deny</button>
+                    <button class="back-btn" onclick="window.location.href='admin_manage_room.html'">Back to Management</button>
                 </div>
             </div>
-
+            
             <!-- Room Card 3 -->
             <div class="room-card">
+                <div class="status-badge">ACCEPTED</div>
                 <div class="room-image"></div>
                 
                 <div class="room-details">
@@ -146,15 +193,15 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="admin-notes">
                     <h2>Admin Notes</h2>
-                    <p>Large event - requires additional security arrangements.</p>
+                    <p>Large event request has been approved. Additional security arrangements have been coordinated and confirmed. The organizer has been notified with all necessary guidelines and the auditorium is reserved.</p>
                 </div>
-
+                <div class="status-message">
+                    Request Accepted Successfully
+                </div>
                 <div class="action-buttons">
-                    <button class="action-btn accept-btn" onclick="window.location.href='manage_room_accepted.html'">Accept</button>
-                    <button class="action-btn deny-btn" onclick="window.location.href='manage_room_denied.html'">Deny</button>
+                    <button class="back-btn" onclick="window.location.href='admin_manage_room.html'">Back to Management</button>
                 </div>
             </div>
         </div>
