@@ -28,6 +28,16 @@ class ReservationRoomDetailsForm(forms.ModelForm):
                 'type': 'time',
                 'class': 'form-control'
             }),
+            'letter_of_endorsement': forms.ClearableFileInput(attrs={
+                'id': 'id_letter_of_endorsement',
+                'accept': '.pdf',
+                'style': 'display:none;',  # hide the file input by default
+            }),
+            'cover_image': forms.ClearableFileInput(attrs={
+                'id': 'id_cover_image',
+                'accept': 'image/*',
+                'style': 'display:none;',
+            }),
         }
 
     def clean(self):

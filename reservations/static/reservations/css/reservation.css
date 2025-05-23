@@ -39,13 +39,15 @@ fieldset {
     border: 1px solid transparent;
 }
 
-/* .room-image {
+ h1.room-image {
   
   padding: 1rem;
   text-align: center;
   border-radius: 0.75rem;
   margin-bottom: 1.5rem;
-} */
+  background-color: #5c48ee;
+  color: white;
+} 
 
 /* .room-number {
   font-size: 1.5rem;
@@ -56,18 +58,30 @@ fieldset {
 .room-details {
   margin-bottom: 1.5rem;
 }
-
-.room-details h2 {
+*/
+h2 {
   font-size: 1.25rem;
   color: var(--primary);
   margin-bottom: 0.5rem;
 }
 
-.room-details label {
+p label, div label {
   display: block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.15rem;
   font-weight: 500;
-} */
+} 
+
+p.file-p {
+    display: flex;
+}
+
+p.file-p label{
+    width: 20em;
+}
+
+div.attendeewrap {
+    margin-top: 1.25rem;
+}
 
 input[type="date"],
 input[type="time"],
@@ -79,6 +93,59 @@ input[type="text"] {
   border: 1px solid var(--aqua);
   border-radius: 0.5rem;
   margin-top: 0.25rem;
+}
+
+
+input[type="file"]{
+  width: 95%;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+input[type="email"]{
+    margin-bottom: 0.50rem;
+}
+
+#id_letter_of_endorsement {
+    display: none;
+}
+
+.dropzone {
+    border: 2px dashed #aaa;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dropzone.highlight {
+    border-color: #333;
+    background-color: #f8f8f8;
+}
+
+.file-info {
+    font-style: italic;
+    color: #333;
+    margin-top: 5px;
+}
+
+.custom-file-upload {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+.custom-file-upload:hover {
+    background-color: #f1f1f1;
+}
+#id_letter_of_endorsement,
+#id_cover_image {
+    display: none;
 }
 
 /* .available {
