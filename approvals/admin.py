@@ -100,12 +100,12 @@ class ReservationStatusLogAdmin(admin.ModelAdmin):
                                     rival.reservation_status_log = status_log
                                     rival.save()
 
-                                ApprovalAudit.objects.create(
-                                    reservation=rival, 
-                                    admin=request.user,
-                                    status_choice='D',
-                                    timestamp=timezone.now()
-                                )
+                                    ApprovalAudit.objects.create(
+                                        reservation=rival, 
+                                        admin=request.user,
+                                        status_choice='D',
+                                        timestamp=timezone.now()
+                                    )
                     except ReservationDetails.DoesNotExist:
                         pass
 
