@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Form</title>
+    <script>
+        function confirmSubmission(){
+            return confirm("Are you sure you want to submit this reservation?");
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Letter of endorsement logic
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('id_letter_of_endorsement');
+            const uploadedFileInfo = document.getElementById('uploaded-file-info');
+
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('highlight');
+            });
+
+            dropzone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('highlight');
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('highlight');
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    uploadedFileInfo.textContent = e.dataTransfer.files[0].name;
+                }
+            });
+
+            dropzone.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length) {
+                    uploadedFileInfo.textContent = fileInput.files[0].name;
+                }
+            });
+
+            // Cover image dropzone logic
+            const coverDropzone = document.getElementById('coverImageDropZone');
+            const coverFileInput = document.getElementById('id_cover_image');
+            const coverFileNameDisplay = document.getElementById('coverImageFileName');
+
+            coverDropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                coverDropzone.classList.add('highlight');
+            });
+
+            coverDropzone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                coverDropzone.classList.remove('highlight');
+            });
+
+            coverDropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                coverDropzone.classList.remove('highlight');
+
+                if (e.dataTransfer.files.length) {
+                    const file = e.dataTransfer.files[0];
+                    if (!file.type.startsWith('image/')) {
+                        alert('Only image files are allowed for cover image.');
+                        return;
+                    }
+                    coverFileInput.files = e.dataTransfer.files;
+                    coverFileNameDisplay.textContent = file.name;
+                }
+            });
+
+            coverDropzone.addEventListener('click', () => {
+                coverFileInput.click();
+            });
+
+            coverFileInput.addEventListener('change', () => {
+                if (coverFileInput.files.length) {
+                    const file = coverFileInput.files[0];
+                    if (!file.type.startsWith('image/')) {
+                        alert('Only image files are allowed for cover image.');
+                        coverFileInput.value = '';
+                        coverFileNameDisplay.textContent = '';
+                        return;
+                    }
+                    coverFileNameDisplay.textContent = file.name;
+                }
+            });
+        });
+    </script>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'reservations/css/reservation.css' %}">
+</head>
+<body>
+    <div class="container">
+            <h1 class="room-image">Reservation for {{ room.roomlabel }}</h1>
+
+        <!-- Display success or error messages -->
+        {% if roomdetails_form.errors %}
+            <ul style="color:red;">
+            {% for field in roomdetails_form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in roomdetails_form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if attendees_formset.non_form_errors %}
+            <ul style="color:red;">
+            {% for error in attendees_formset.non_form_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% for form in attendees_formset %}
+            {% if form.errors %}
+                <ul style="color:red;">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+
+        <form method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmission()">
+            {% csrf_token %}
+
+            <fieldset class="fieldset">
+                <h2>Event Details</h2>
+                <p>
+                    {{ roomdetails_form.event_name.label_tag}}
+                    {{ roomdetails_form.event_name }}
+                    {{ roomdetails_form.event_name.errors }}
+                </p>
+                <p>
+                    {{ roomdetails_form.event_description.label_tag}}
+                    {{ roomdetails_form.event_description }}
+                    {{ roomdetails_form.event_description.errors }}
+                </p>
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <h2>Schedule</h2>
+                <p>
+                    {{ roomdetails_form.start_time.label_tag}}
+                    {{ roomdetails_form.start_time }}
+                    {{ roomdetails_form.start_time.errors }}
+                </p>
+                <p>
+                    {{ roomdetails_form.end_time.label_tag}}
+                    {{ roomdetails_form.end_time }}
+                    {{ roomdetails_form.end_time.errors }}
+                </p>
+                <p>
+                    {{ roomdetails_form.date.label_tag}}
+                    {{ roomdetails_form.date }}
+                    {{ roomdetails_form.date.errors }}
+                </p>
+            </fieldset>
+            
+            <!-- Attendee Formset -->
+            <fieldset>
+                <h2>Attendee Information</h2>
+                {{ attendees_formset.management_form }}
+                <div class="attendeewrap">
+                    {% for form in attendees_formset %}
+                        <div>
+                            <label for="{{ form.user.id_for_label }}">User Email:</label>
+                            {{ form.user }}
+                            {% if form.errors %}
+                                <div style="color:red;">
+                                    {% for field_name, field_errors in form.errors.items %}
+                                        {% for error in field_errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <fieldset>
+
+                <h2>Letter Of Endorsement</h2>
+                {% comment %} <p class="file-p">
+                    {{ roomdetails_form.letter_of_endorsement.label_tag}}
+                    {{ roomdetails_form.letter_of_endorsement }}
+                    {{ roomdetails_form.letter_of_endorsement.errors }}
+                </p> {% endcomment %}
+                
+                <div id="dropzone" class="dropzone">
+                <p id="dropzone-text">Drag & drop your PDF here or click to select</p>
+                {{ roomdetails_form.letter_of_endorsement }}
+                </div>
+
+                <div id="uploaded-file-info" class="file-info"></div>
+
+            </fieldset>
+
+            <fieldset>
+                <h2>Cover Image</h2>
+                {% comment %} <p class="file-p">
+                    {{ roomdetails_form.cover_image.label_tag}}
+                    {{ roomdetails_form.cover_image }}
+                    {{ roomdetails_form.cover_image.errors }}
+                </p> {% endcomment %}
+
+                <div id="coverImageDropZone" class="dropzone">
+                    <p>Drop cover image here or click to upload (images only)</p>
+                </div>
+                <p id="coverImageFileName" style="margin-top: 5px; font-style: italic;"></p>
+
+                <!-- Hidden file input -->
+                {{ roomdetails_form.cover_image }}
+            </fieldset>
+
+            <!-- Submit button --> 
+            <div class="buttonwrapper">
+                <button type="button" class="register-btn" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
+                    Back to Room Selection
+                </button>
+                <button type="submit" class="register-btn">Submit Reservation</button>
+            </div>
+        </form>
+        
+    </div>
+
+</body>
+</html>
