@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Reservations & Events</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'events/css/event.css' %}">
+</head>
+<body>
+    <h2>Your Reservations</h2>
+
+    {% if reservation_data_list %}
+        {% for data in reservation_data_list %}
+            <fieldset>
+
+                <div class="reservation-content">
+                    <div class="reservation-image">
+                        {% if data.reservation.cover_image %}
+                            <img src="{{ data.reservation.cover_image.url }}" alt="Cover Page">
+                        {% endif %}
+                    </div>
+                    <div class="reservation-details">
+                        <h3 class="event-name">{{ data.reservation.event_name|capfirst }}</h3>
+                        <p><strong>Organizer:</strong> {{ data.reservation.reservation_detail.organizer.first_name }} {{ data.reservation.reservation_detail.organizer.last_name }}</p>
+                        <p><strong>Event Venue:</strong> {{ data.reservation.room }}</p>
+                        <p><strong>Starting time:</strong> {{ data.reservation.start_time }}</p>
+                        <p><strong>Ending time:</strong> {{ data.reservation.end_time }}</p>
+                        <p><strong>Date:</strong> {{ data.reservation.date }}</p>
+                        <p><strong>Letter of Endorsement:</strong> 
+                            {% if data.reservation.letter_of_endorsement %}
+                                <a href="{{ data.reservation.letter_of_endorsement.url }}" target="_blank">View PDF</a>
+                            {% else %}
+                                Not uploaded
+                            {% endif %}
+                        </p>
+                        <p><strong>Event Description:</strong> {{ data.reservation.event_description }}</p>
+                        <div class="status-section">
+                            <h4>Reservation Status</h4>
+                            {% if data.reservation.reservation_detail.reservation_status_log %}
+                                {% with data.reservation.reservation_detail.reservation_status_log.get_status_display as status %}
+                                    <span class="status-badge 
+                                        {% if status == 'Accepted' %}
+                                            status-accepted
+                                        {% elif status == 'Denied' %}
+                                            status-denied
+                                        {% else %}
+                                            status-pending
+                                        {% endif %}
+                                    ">
+                                        {{ status }}
+                                    </span>
+                                {% endwith %}
+                            {% else %}
+                                <p>No status log found.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="attendee-section">
+                    <div class="attendee-header"><h3>Attendees</h3></div>
+                    <ul>
+                        {% for attendee in data.attendees %}
+                            <li>{{ attendee.first_name }} {{ attendee.last_name }} ({{ attendee.email }})</li>
+                        {% empty %}
+                            <li>No attendees yet</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </fieldset>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>You have no reservations yet.</p>
+    {% endif %}
+
+    <h2>Your Events</h2>
+    {% if event_data_list %}
+        {% for data in event_data_list %}
+            <fieldset>
+
+                {% if data.event.reservationdetails %}
+                    <div class="reservation-content">
+                        {% with data.event.reservationdetails.reservation_room_details as details %}
+                            <div class="reservation-image">
+                                {% if details.cover_image %}
+                                    <img src="{{ details.cover_image.url }}" alt="Cover Page">
+                                {% endif %}
+                            </div>
+
+                            <div class="reservation-details">
+                                <h3 class="event-name">{{ details.event_name|capfirst }}</h3>
+                                <p><strong>Event Organizer:</strong> 
+                                    {{ data.event.reservationdetails.organizer.first_name }} {{ data.event.reservationdetails.organizer.last_name }}
+                                </p>
+                                <p><strong>Date:</strong> {{ details.date }}</p>
+                                <p><strong>Time:</strong> {{ details.start_time }} - {{ details.end_time }}</p>
+                                <p><strong>Room:</strong> {{ details.room }}</p>
+                                <p><strong>Created At:</strong> {{ data.event.created_at }}</p> 
+                            </div>
+                        {% endwith %}
+                    </div>
+                {% else %}
+                    <p>No reservation linked to this event.</p>
+                {% endif %}
+            </fieldset>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>You are not in any Events yet.</p>
+    {% endif %}
+</body>
+</html>

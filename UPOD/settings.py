@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'approvals',
-    'userdashboard',
+    'dashboard',
     'events',
     'feedback',
     'notifications',
@@ -110,7 +111,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'upod',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': 'upod',
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -143,6 +144,7 @@ LANGUAGE_CODE = 'en-us'
 
 USE_I18N = True
 
+TIME_ZONE = 'Asia/Manila'
 USE_TZ = True
 
 
@@ -156,6 +158,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'upodstaticfiles'
 ]
+
+# Media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

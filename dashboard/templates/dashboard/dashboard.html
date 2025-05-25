@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Testing
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'rooms:room_selection' %}'">
+        Reservation
+    </button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'events:events' %}'">
+        Events
+    </button>
+    <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+    
+
+    <br>
+</body>
+</html>
