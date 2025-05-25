@@ -40,9 +40,12 @@
 
             {% if not SOCIALACCOUNT_ONLY %}
             <div class="social-icons">
-                <a href="{% provider_login_url 'google' %}?next=/dashboard/" class="google-btn">
-                    <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
-                </a>
+              <button type="button" class="google-btn" onclick="window.location.href='{% provider_login_url 'google' %}?next=/dashboard/'">
+                <i class="fa-brands fa-google-plus-g"></i><p>Google</p>
+              </button>
+            <!-- <a href="{% provider_login_url 'google' %}?next=/dashboard/" class="google-btn"> -->
+            <!--   <i class="fa-brands fa-google-plus-g"></i><p>Google</p> -->
+            <!-- </a> -->
             </div>
             <span>or use your email password</span>
 

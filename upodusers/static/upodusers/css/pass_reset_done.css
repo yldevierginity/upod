@@ -138,3 +138,13 @@ body{
     padding:20px;
     text-shadow: 3px 3px 6px #333
 }
+
+.login:link, .login:visited {
+  color: #E65952;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:link:active, a:visited:active {
+  color: (internal value);
+}
