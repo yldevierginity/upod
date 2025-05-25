@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'PP Neue Montreal', sans-serif;                                       
+}
+
+body{
+    /* E65952 red */
+    /* EBD448 yellow */
+    /* 36707C blue */
+    /* 9DD0D1 light blue */
+    background-color: #ffffff;
+    /* background: linear-gradient(to bottom, #E65952 50%, #EBD448, #36707C); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.header {
+    background: linear-gradient(to right, #59cfe7 10%,#ffc506, #E65952);
+    width: 100%; 
+    margin-bottom: 50px;
+    font-size: 23px;
+    color: #f9f7f7;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 1px 1px 11px #333;
+    display: flex;
+    gap: 30px;
+    font-weight: bold;
+   
+}
+
+.ilc_logo img{
+    width: 150px;
+    height: auto;
+    
+}
+
+.container{
+  box-shadow: 3px 3px 4px #EBD448, -3px -3px 4px #3FADBE , 3px -3px 4px #59cfe7 , -3px 3px 4px #ffc506 ;
+  background-color: #eeeee9;
+  border-radius: 20px;
+  margin: 4rem;
+  padding: 65px 65px 25px 65px;
+}
+
+.container:hover{
+  transform: scale(1.06);
+  transition: all 0.3s ease;
+}
+
+
+.container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.pass-note {
+    background-color: #e7f3ff;
+    padding: 1px;
+    border-left: 4px solid #1e242a;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.container p {
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    color: #333;
+    text-align: center;
+}
+
+.email_input{
+    text-align: center;
+
+}
+
+.email_input input{
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 40%;
+}
+
+.reset-button {
+    text-align: center;
+}
+
+.reset-button .btn {
+    padding: 14px 18px;
+    font-size: 1rem;
+    color: white;
+    background-color: #d41d1d;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.reset-button .btn:hover {
+    background-color: #7b0404;
+}
+
+/* CONTACT US */
+.footer{
+    margin-top: 50px;
+    width: 100%;
+    background: linear-gradient(to right, #59cfe7 10%,#ffc506, #E65952);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.footer h1{
+    font-size: 40px;
+    color: #fff;
+    padding: 20px 0px;
+    text-align: center;
+    text-shadow: 2px 2px 8px #333
+}
+
+
+.footer a{
+    font: PP Neue Montreal;
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+    padding:20px;
+    text-shadow: 3px 3px 6px #333
+}
