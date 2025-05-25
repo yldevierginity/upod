@@ -28,12 +28,13 @@
               </a>
             <ul class="dropdown-menu">
               <li><a href="../templates/profile.html">View Profile</a></li>
-              <form method="POST" action="{% url 'account_logout' %}?next=/" no_visible_fields=True >
+              <form method="POST" no_visible_fields=True >
                 {% csrf_token %}
                 <li class="logout">
-                  <a  hx-post="{% url 'account_logout' %}?next=/" 
+                  <a  hx-post="{% url 'logout_views' %}?next=/" 
+                      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                   hx-target="body" 
-                  hx-swap="outerHTML" 
+                  hx-swap="none" 
                   hx-confirm="Are you sure you want to log out?">Logout</a>
                 </li>
               </form>
