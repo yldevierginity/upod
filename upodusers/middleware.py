@@ -6,8 +6,17 @@ class RedirectAuthenticatedUserMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        login_url = reverse("index")
-        if request.user.is_authenticated and request.path in [login_url]:
-            return redirect('dashboard')  # Replace 'home' with your desired URL name
+        redirect_from_paths = [
+            reverse('index'),
+            reverse('account_login'),
+            reverse('account_signup'),
+            reverse('account_reset_password'),
+        ]
+        dashboard_url = reverse('dashboard')  # name of your dashboard URL
+
+        # Only redirect if the user is authenticated and trying to access login
+        if request.user.is_authenticated and request.path in redirect_from_paths:
+            return redirect(dashboard_url)
+
         return self.get_response(request)
 
