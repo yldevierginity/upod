@@ -110,7 +110,7 @@ WSGI_APPLICATION = 'UPOD.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tempName',
+        'NAME': 'upod',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',

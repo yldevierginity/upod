@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from reservations.models import ReservationRoomDetails
 from .models import Event
+from django.conf import settings
 
 User = get_user_model()
 
 def render_events(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return redirect(settings.ACCOUNT_LOGOUT_REDIRECT_URL)
 
     user = request.user
     email = user.email

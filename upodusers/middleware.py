@@ -12,7 +12,7 @@ class RedirectAuthenticatedUserMiddleware:
             reverse('account_signup'),
             reverse('account_reset_password'),
         ]
-        dashboard_url = reverse('dashboard')  # name of your dashboard URL
+        dashboard_url = reverse('dashboard:dashboardhome')  # name of your dashboard URL
 
         # Only redirect if the user is authenticated and trying to access login
         if request.user.is_authenticated and request.path in redirect_from_paths:

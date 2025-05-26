@@ -14,13 +14,12 @@ def index(request):
     return render(request, 'userdashboard/index.html')
 
 def logout_views(request):
-    if request.method == "POST":
-        logout(request)
+    logout(request)
 
-        if request.headers.get("HX-Request"):
-            response = HttpResponse()
-            response['HX-Redirect'] = settings.ACCOUNT_LOGOUT_REDIRECT_URL
-            return response
+    if request.headers.get("HX-Request"):
+        response = HttpResponse()
+        response['HX-Redirect'] = settings.ACCOUNT_LOGOUT_REDIRECT_URL
+        return response
     return redirect(settings.ACCOUNT_LOGOUT_REDIRECT_URL)
 
 def render_dashboard(request):
