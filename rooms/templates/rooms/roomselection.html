@@ -5,9 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'rooms/css/room.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/room.css' %}?v=4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+    <nav>
+        <div class="nav-logo"><a href="landing.html">UPOD</a></div>
+        <ul class="nav-links">
+        <li class="landing"><a href="{% url 'dashboard' %}">Home</a></li>
+        <li class="registration"><a href="{% url 'rooms:room_selection' %}">Registration</a></li>
+        <li class="events"><a href="{% url 'events:events' %}">Events</a></li>
+        <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
+
+            <div class="profile-dropdown">
+                <a href="../templates/profile.html" title="My Profile">
+                    <i class="fa-regular fa-circle-user"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="../templates/profile.html">View Profile</a></li>
+                    <form method="POST" no_visible_fields=True >
+                        {% csrf_token %}
+                        <li class="logout">
+                            <a  hx-post="{% url 'logout_views' %}?next=/" 
+                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                            hx-target="body" 
+                            hx-swap="none" 
+                            hx-confirm="Are you sure you want to log out?">Logout</a>
+                    </li>
+                    </form>
+                </ul>
+            </div>
+        </ul>
+    </nav>
 
     <div class="container">
         <header>

@@ -24,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!7g2jrz@@s2v&ka5hw+gcjxma&*2z+*oa5h*x&_8tu(bw590)*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-SITE_ID = 3
+SITE_ID = 4
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIERD = True
@@ -110,9 +110,9 @@ WSGI_APPLICATION = 'UPOD.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'upod',
+        'NAME': 'tempName',
         'USER': 'postgres',
-        'PASSWORD': 'upod',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -157,7 +157,7 @@ STATIC_ROOT = BASE_DIR / 'prodfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'upodstaticfiles'
+    BASE_DIR / 'static'
 ]
 
 # Media files
