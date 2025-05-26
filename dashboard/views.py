@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from reservations.models import ReservationRoomDetails
+from django.conf import settings
 
 # Create your views here.
 
@@ -13,16 +14,20 @@ def index(request):
     return render(request, 'userdashboard/index.html')
 
 def logout_views(request):
-    logout(request)
-    response = HttpResponse()
-    response['HX-Redirect'] = '/'
-    return response
+    if request.method == "POST":
+        logout(request)
+
+        if request.headers.get("HX-Request"):
+            response = HttpResponse()
+            response['HX-Redirect'] = settings.ACCOUNT_LOGOUT_REDIRECT_URL
+            return response
+    return redirect(settings.ACCOUNT_LOGOUT_REDIRECT_URL)
 
 def render_dashboard(request):
     user = request.user
 
     if not user.is_authenticated:
-        return redirect('login')
+        return redirect(settings.ACCOUNT_LOGOUT_REDIRECT_URL)
     
     reservations = ReservationRoomDetails.objects.filter(reservation_detail__organizer=user)
 

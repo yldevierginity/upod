@@ -17,7 +17,7 @@
     <nav>
       <div class="nav-logo"><a href="landing.html">UPOD</a></div>
       <ul class="nav-links">
-        <li class="landing"><a href="{% url 'dashboard' %}">Home</a></li>
+        <li class="landing"><a href="{% url 'dashboard:dashboardhome' %}">Home</a></li>
         <li class="registration"><a href="{% url 'rooms:room_selection' %}">Registration</a></li>
         <li class="events"><a href="{% url 'events:events' %}">Events</a></li>
         <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
@@ -31,7 +31,7 @@
               <form method="POST" no_visible_fields=True >
                 {% csrf_token %}
                 <li class="logout">
-                  <a  hx-post="{% url 'logout_views' %}?next=/" 
+                  <a  hx-post="{% url 'dashboard:logout_views' %}?next=/" 
                       hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                   hx-target="body" 
                   hx-swap="none" 
