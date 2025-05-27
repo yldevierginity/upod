@@ -20,7 +20,7 @@
         <li class="landing"><a href="{% url 'dashboard:dashboardhome' %}">Home</a></li>
         <li class="registration"><a href="{% url 'rooms:room_selection' %}">Registration</a></li>
         <li class="events"><a href="{% url 'events:events' %}">Events</a></li>
-        <li class="my_qr"><a href="../templates/my_qr.html">My QR</a></li>
+        <li class="my_qr"><a href="{% url 'dashboard:about_us' %}">About Us</a></li>
 
             <div class="profile-dropdown">
                 <a href="../templates/profile.html" title="My Profile">

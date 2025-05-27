@@ -35,3 +35,6 @@ def render_dashboard(request):
         'user': user,
         'reservations': reservations,
     })
+
+def about_us(request):
+    return render (request, 'dashboard/about.html')

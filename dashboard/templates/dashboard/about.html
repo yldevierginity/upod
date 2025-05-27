@@ -1,0 +1,611 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="../static/UPOD.png" type="UPOD">
+    <script src="https://unpkg.com/htmx.org@2.0.4" 
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+    crossorigin="anonymous"></script>
+    <title>About Us</title>
+    
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+      @import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+      @import url('https://fonts.cdnfonts.com/css/lumanosimo');
+      @import url('https://fonts.cdnfonts.com/css/unbounded');
+
+      :root {
+        --primary: #5c48ee;
+        --dark-blue: #0f1e6a;
+        --teal: #36707C;
+        --salmon: #E65952;
+        --yellow: #EBD448;
+        --light-blue: #3FADBE;
+        --aqua: #9DD0D1;
+        --white: #ffffff;
+        --gray-light: #f5f5f5;
+        --gray-dark: #333333;
+        
+        /* Keeping original navbar variables for compatibility */
+        --primary-color: #5c48ee;
+        --primary-color-dark: #0f1e6a;
+        --secondary-color: #f9fafe;
+        --text-color: #333333;
+        --max-width: 1200px;
+      }
+
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'PP Neue Montreal', sans-serif;
+        background: linear-gradient(135deg, var(--gray-light) 0%, var(--white) 100%);
+        min-height: 100vh;
+      }
+
+      /* NAVBAR STYLES - PRESERVED */
+      nav {
+        width:100%;
+        margin: auto;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        box-shadow: #091969 0px 0px 18px 2px;
+        justify-content: space-between;
+        background: var(--white);
+        position: relative;
+        z-index: 1000;
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          height: auto;
+          align-items: flex-start;
+          padding: 10px;
+        }
+
+        nav .nav-logo a {
+          font-size: 40px;
+          padding: 0;
+        }
+
+        nav .nav-links {
+          flex-direction: column;
+          width: 100%;
+          padding: 0;
+        }
+      }
+
+      .nav-logo a {
+        font-size: 60px;
+        font-weight: 900;
+        font-family: unbounded;
+        font-stretch: expanded;
+        color: #000;
+        text-decoration: none;
+        padding: 0px 3rem;
+      }
+
+      .nav-logo a:hover {
+        transform: scale(1.2);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        padding:30px;
+      }
+
+      .nav-links a{
+        list-style: none;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        color: #000;
+        font:'PP Neue Montreal', sans-serif;
+        font-weight: 500;
+        font-size: 17px;
+        gap: 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+        height: 45px;
+        transition: 0.3s;
+        margin: 15px;
+        padding:  0px 40px;
+      }
+
+      .nav-links a:hover {
+        background-color: var(--primary-color);
+        box-shadow: 0 0 0 5px #3b83f65f;
+        color: #fff;
+        transform: scale(1.06);
+        padding-bottom: 10px;
+        bottom: -2px;
+      }
+
+      .profile-dropdown {
+        position: relative;
+      }
+
+      .profile-dropdown .dropdown-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: rgb(240, 236, 236);
+        list-style: none;
+        margin: 0;
+        padding: 3px;
+        border: 2px solid #0f1e6a;
+        border-radius: 14px;
+        text-align: center;
+      }
+
+      .profile-dropdown .dropdown-menu li a {
+        color: #333;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-menu li a:hover {
+        background-color: var(--primary-color);
+        box-shadow: 0 0 0 3px #3b83f65f;
+        color: white;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+      }
+
+      .dropdown-menu .logout a {
+        padding: 7px;
+        text-align: center;
+      }
+      .dropdown-menu .logout a:hover{
+        background-color: #ec4b4b;
+        box-shadow: 0 0 0 3px #e020205f;
+        color: white;
+      }
+
+      .dropdown-menu a:hover{
+        box-shadow: none;
+        background-color: white;
+      }
+
+      .profile-dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      .profile-dropdown .fa-user {
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+
+      .fa-circle-user {
+        font-size: 1.5rem;           
+        color: #000000;             
+        transition: color 0.3s ease;
+        cursor: pointer;
+      }
+
+      .link a {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: 0.3s;
+        list-style: none;
+      }
+
+      .link a:hover {
+        color: var(--primary-color);
+      }
+
+      .nav__btn {
+        font-size: 18px;
+        width: fit-content;
+        border-radius: 20px;
+        padding: 15px 35px;
+        color: #fff;
+        background-color: var(--primary-color);
+        text-decoration: none;
+        list-style: none;
+        margin-bottom: 5rem;
+      }
+      .nav__btn:hover {
+        transform: scale3d(1.05, 1.05, 1);
+        box-shadow: 2px 3px 0px 1px #1f1c24;
+      }
+
+      /* ABOUT US SECTION STYLES */
+      .about-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+
+      .about-header {
+        text-align: center;
+        margin-bottom: 80px;
+      }
+
+      .about-title {
+        font-size: 4rem;
+        font-weight: 900;
+        font-family: 'Unbounded', sans-serif;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--dark-blue) 50%, var(--teal) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        letter-spacing: -2px;
+      }
+
+      .about-subtitle {
+        font-size: 1.4rem;
+        color: var(--gray-dark);
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .team-section {
+        margin-bottom: 100px;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+        color: var(--gray-dark);
+      }
+
+      .programmers-title {
+        color: var(--primary);
+      }
+
+      .managers-title {
+        color: var(--salmon);
+      }
+
+      .section-description {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--gray-dark);
+        margin-bottom: 60px;
+        opacity: 0.8;
+      }
+
+      .team-grid {
+        display: grid;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .programmers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .managers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .team-card {
+        background: var(--white);
+        border-radius: 24px;
+        padding: 40px 30px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .team-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--primary), var(--light-blue));
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+      }
+
+      .team-card:hover::before {
+        transform: translateX(0);
+      }
+
+      .programmer-card::before {
+        background: linear-gradient(90deg, var(--primary), var(--teal));
+      }
+
+      .manager-card::before {
+        background: linear-gradient(90deg, var(--salmon), var(--yellow));
+      }
+
+      .team-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      .member-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin: 0 auto 25px;
+        background: linear-gradient(135deg, var(--aqua), var(--light-blue));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: var(--white);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+      }
+
+      .programmer-card .member-image {
+        background: linear-gradient(135deg, var(--primary), var(--dark-blue));
+      }
+
+      .manager-card .member-image {
+        background: linear-gradient(135deg, var(--salmon), var(--yellow));
+      }
+
+      .team-card:hover .member-image {
+        transform: scale(1.1);
+      }
+
+      .member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .member-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--gray-dark);
+        margin-bottom: 8px;
+      }
+
+      .member-role {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: inline-block;
+      }
+
+      .programmer-role {
+        background: linear-gradient(135deg, var(--primary)15, var(--primary)25);
+        color: var(--primary);
+        border: 1px solid var(--primary)40;
+      }
+
+      .manager-role {
+        background: linear-gradient(135deg, var(--salmon)15, var(--salmon)25);
+        color: var(--salmon);
+        border: 1px solid var(--salmon)40;
+      }
+
+      .member-description {
+        font-size: 0.95rem;
+        color: var(--gray-dark);
+        line-height: 1.6;
+        opacity: 0.8;
+      }
+
+      .skills-container {
+        margin-top: 20px;
+      }
+
+      .skills-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--gray-dark);
+        margin-bottom: 10px;
+      }
+
+      .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .skill-tag {
+        padding: 4px 12px;
+        background: var(--gray-light);
+        border-radius: 12px;
+        font-size: 0.8rem;
+        color: var(--gray-dark);
+        font-weight: 500;
+      }
+
+      .programmer-card .skill-tag {
+        background: linear-gradient(135deg, var(--primary)10, var(--teal)10);
+        color: var(--dark-blue);
+      }
+
+      .manager-card .skill-tag {
+        background: linear-gradient(135deg, var(--salmon)10, var(--yellow)10);
+        color: var(--salmon);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .about-title {
+          font-size: 2.5rem;
+        }
+
+        .about-subtitle {
+          font-size: 1.1rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .team-grid {
+          gap: 30px;
+        }
+
+        .team-card {
+          padding: 30px 20px;
+        }
+
+        .programmers-grid,
+        .managers-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .about-container {
+          padding: 40px 15px;
+        }
+
+        .about-title {
+          font-size: 2rem;
+        }
+
+        .member-image {
+          width: 100px;
+          height: 100px;
+          font-size: 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-logo"><a href="{% url 'dashboard:dashboardhome' %}">UPOD</a></div>
+      <ul class="nav-links">
+        <li class="landing"><a href="{% url 'dashboard:dashboardhome' %}">Home</a></li>
+        <li class="registration"><a href="{% url 'rooms:room_selection' %}">Registration</a></li>
+        <li class="events"><a href="{% url 'events:events' %}">Events</a></li>
+        <li class="my_qr"><a href="{% url 'dashboard:about_us' %}">About Us</a></li>
+        
+        <div class="profile-dropdown">
+          <a href="../templates/profile.html" title="My Profile">
+            <i class="fa-regular fa-circle-user"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="../templates/profile.html">View Profile</a></li>
+            <li class="logout">
+              <a hx-post="/logout/" 
+              hx-target="body" 
+              hx-swap="outerHTML" 
+              hx-confirm="Are you sure you want to log out?">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </ul>
+    </nav>
+
+    <div class="about-container">
+      <div class="about-header">
+        <h1 class="about-title">About UPOD</h1>
+        <p class="about-subtitle">Meet the talented team behind UPOD - passionate developers and dedicated managers working together to create exceptional digital experiences.</p>
+      </div>
+
+      <div class="team-section">
+        <h2 class="section-title programmers-title">Our Developers</h2>
+        <p class="section-description">The creative minds who bring ideas to life through code</p>
+        
+        <div class="team-grid programmers-grid">
+          <div class="team-card programmer-card">
+            <div class="member-image">
+              <img src="Louis.jpg" alt="Louis">
+            </div>
+            <h3 class="member-name">Karlo Louis Dongon</h3>
+            <div class="member-role programmer-role">UI/UX | Frontend Developer</div>
+            <p class="member-description">Louis brings a creative and intuitive touch to the user experience. Always experimenting with design trends and clean layouts, he's passionate about crafting interfaces that feel just right. While still learning the ropes of deployment, he brings a strong visual sense and a fresh perspective that keeps our front end exciting and user-friendly.</p>
+          </div>
+
+          <div class="team-card programmer-card">
+            <div class="member-image">
+              <img src="Yldevier.jpg" alt="Yldevier John">
+            </div>
+            <h3 class="member-name">Carl Raymund Suello</h3>
+            <div class="member-role programmer-role">UI/UX Frontend Developer</div>
+            <p class="member-description">Carl is the steady hand in the front-end process, transforming designs into responsive, functional code. He’s meticulous, detail-oriented, and always looking for ways to improve user interaction. Though new to deployment, he’s quick to adapt and eager to master every step of the development pipeline.</p>
+          </div>
+
+         <div class="team-card programmer-card">
+            <div class="member-image">
+              <img src="Yldevier.jpg" alt="Yldevier John">
+            </div>
+            <h3 class="member-name">Yldevier John Magpusao</h3>
+            <div class="member-role programmer-role">Backend Developer</div>
+            <p class="member-description">Ylde is the veteran developer whose deep experience anchors the backend team. Efficient, logical, and quietly brilliant, he’s the go-to guy for solving complex problems and optimizing performance. He brings wisdom to the codebase and calm to the team.</p>
+          </div>
+
+           <div class="team-card programmer-card">
+            <div class="member-image">
+              <img src="Louis.jpg" alt="Yldevier John">
+            </div>
+            <h3 class="member-name">Miguel Alexis Morgia</h3>
+            <div class="member-role programmer-role">Team Leader | Backend Developer</div>
+            <p class="member-description">As the team lead, Migs blends technical know-how with natural leadership. Focused, calm, and strategic, he ensures the backend infrastructure is solid and scalable. Migs is the kind of leader who listens first, thinks deeply, and builds with purpose.</p>
+          </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="team-section">
+        <h2 class="section-title managers-title">Project Managers</h2>
+        <p class="section-description">Strategic leaders who guide our vision and ensure project success</p>
+        
+        <div class="team-grid managers-grid">
+          <div class="team-card manager-card">
+            <div class="member-image">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="member-name">Satori Pelayo</h3>
+            <div class="member-role manager-role">Project Manager</div>
+            <p class="member-description">Satori keeps the wheels turning and the colors aligned. With years of experience in managing creative teams, she brings structure and vision to the process. Her eye for aesthetics and clarity in communication makes her a bridge between design, dev, and delivery.</p>
+          </div>
+
+             <div class="team-grid managers-grid">
+          <div class="team-card manager-card">
+            <div class="member-image">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="member-name">Meekah Yzabelle Carballo</h3>
+            <div class="member-role manager-role">Project Manager</div>
+            <p class="member-description">Meekah is the guiding force behind timelines and tone. Organized and imaginative, she ensures that every piece of the puzzle fits together beautifully. With a sharp sense of color and composition, she helps shape both the flow of the project and the feel of the product.</p>
+          </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
