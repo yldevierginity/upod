@@ -23,11 +23,11 @@
         <li class="my_qr"><a href="{% url 'dashboard:about_us' %}">About Us</a></li>
         
           <div class="profile-dropdown">
-              <a href="../templates/profile.html" title="My Profile">
+              <a href="{% url 'dashboard:profile' %}" title="My Profile">
               <i class="fa-regular fa-circle-user"></i>
               </a>
             <ul class="dropdown-menu">
-              <li><a href="../templates/profile.html">View Profile</a></li>
+              <li><a href="{% url 'dashboard:profile' %}">View Profile</a></li>
               <form method="POST" no_visible_fields=True >
                 {% csrf_token %}
                 <li class="logout">

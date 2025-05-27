@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="../static/UPOD.png" type="UPOD">
+    <link rel="icon" href="{% static '/dashboard/UPOD.png' %}" type="UPOD">
     <script src="https://unpkg.com/htmx.org@2.0.4" 
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
     crossorigin="anonymous"></script>
@@ -509,11 +509,11 @@
         <li class="my_qr"><a href="{% url 'dashboard:about_us' %}">About Us</a></li>
         
         <div class="profile-dropdown">
-          <a href="../templates/profile.html" title="My Profile">
+          <a href="{% url 'dashboard:profile' %}" title="My Profile">
             <i class="fa-regular fa-circle-user"></i>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="../templates/profile.html">View Profile</a></li>
+            <li><a href="{% url 'dashboard:profile' %}">View Profile</a></li>
             <li class="logout">
               <a hx-post="/logout/" 
               hx-target="body" 

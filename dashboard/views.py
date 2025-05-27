@@ -38,3 +38,9 @@ def render_dashboard(request):
 
 def about_us(request):
     return render (request, 'dashboard/about.html')
+
+def profile(request):
+    user = request.user
+    if user.is_authenticated:
+        return render(request, 'dashboard/profile.html')
+    return redirect(settings.ACCOUNT_LOGOUT_REDIRECT_URL)

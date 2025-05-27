@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +28,7 @@
                     <i class="fa-regular fa-circle-user"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="../templates/profile.html">View Profile</a></li>
+                    <li><a href="{% url 'dashboard:profile' %}">View Profile</a></li>
                     <form method="POST" no_visible_fields=True >
                         {% csrf_token %}
                         <li class="logout">
@@ -69,7 +71,7 @@
     {% comment %} {% for room in rooms %}
     <div class="room-card">
         <h3>{{ room.roomlabel }}</h3>
-        <p>Capacity: {{ room.capacity }}</p>
+        <p>Capacity: {{ roomggd.capacity }}</p>
         <a href="{% url 'create_reservation' room.id %}">
             <button type="button">Reserve {{ room.roomlabel }}</button>
         </a>        

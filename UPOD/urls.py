@@ -27,7 +27,7 @@ urlpatterns = [
     # Local Paths
     path('', include('upodusers.urls')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
-    path('rooms/', include('rooms.urls')),
+    path('rooms/', include('rooms.urls', namespace='rooms')),
     path('reservations/', include('reservations.urls')),
     path('events/', include('events.urls')),
 ]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

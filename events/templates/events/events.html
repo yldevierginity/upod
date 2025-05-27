@@ -27,7 +27,7 @@
                     <i class="fa-regular fa-circle-user"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="../templates/profile.html">View Profile</a></li>
+                    <li><a href="{% url 'dashboard:profile' %}">View Profile</a></li>
                     <form method="POST" no_visible_fields=True action="{% url 'dashboard:logout_views' %}?next=/">
                         {% csrf_token %}
                     <li class="logout">
