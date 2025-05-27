@@ -5,6 +5,7 @@ from .models import ReservationDetails, ReservationStatusLog, AttendeeList, Atte
 from rooms.models import Room
 from django.contrib import messages
 from django.forms import inlineformset_factory
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 
@@ -78,42 +79,23 @@ def create_reservation(request, room_id):
         'room': room,
     })
 
+User = get_user_model()
+
 def reservation_success(request, reservation_details_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    user = request.user
+    email = user.email
 
     reservation_details = get_object_or_404(ReservationDetails, id=reservation_details_id)
     room_details = reservation_details.reservation_room_details
     status_log = reservation_details.reservation_status_log
 
-    #This is for showing the currently submitted attendee_list
-    #------------------------------------------------------------------
-    # Retrieve the attendee list based on the passed attendee_list_id
+    # Get attendees from attendee list, filtering by email resolution
     attendee_list = room_details.attendee_list
-    # Fetch all AttendeeList instances
-    attendees = attendee_list.listings.all()
-    #------------------------------------------------------------------
-
-    #This is for showing all the attendeelist and their respective attendees
-    #------------------------------------------------------------------
-    # attendees_per_attendee = []
-    # for list_instance in attendee_lists:
-    #     attendees = list_instance.listings.all()
-
-    #     attendee_list_info = {
-    #         'attendee_list_id': list_instance.id,
-    #         'attendees': []
-    #     }
-
-    #     for attendee in attendees:
-    #         attendee_list_info['attendees'].append({
-    #             'attendee_id': attendee.id,
-    #             'user': attendee.user
-    #         })
-
-    #     attendees_per_attendee.append(attendee_list_info)
-    #-----------------------------------------------------------------------
-    
-    # Render the reservation success page, passing the attendee list
-    # print("Status log debug:", status_log.id, status_log.status, status_log.time_stamp)
+    attendee_emails = attendee_list.listings.values_list('user', flat=True)
+    attendees = list(User.objects.filter(email__in=attendee_emails))
 
     return render(request, 'reservations/reservation_success.html', {
         'reservation_details': reservation_details,
