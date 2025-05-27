@@ -47,14 +47,17 @@ class ReservationStatusLogAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         if change:
             original_obj = ReservationStatusLog.objects.get(pk=obj.pk)
+
             if original_obj.status != obj.status:
                 obj.admin_in_charge = request.user
                 obj.time_stamp = timezone.now()
-                if obj.status == 'A':
-                    try:
-                        with transaction.atomic():
-                            reservation = ReservationDetails.objects.select_for_update().get(pk=obj.reservation_detail.pk)
 
+                try:
+                    with transaction.atomic():
+                        reservation = ReservationDetails.objects.select_for_update().get(pk=obj.reservation_detail.pk)
+
+                        # === Case 1: Transition TO 'A' (Approve) ===
+                        if obj.status == 'A':
                             if not hasattr(reservation, 'event'):
                                 event = Event.objects.create(
                                     reservationdetails=reservation,
@@ -64,6 +67,7 @@ class ReservationStatusLogAdmin(admin.ModelAdmin):
                                 room_detail = reservation.reservation_room_details
                                 room = room_detail.room
                                 calendar = Calendar.objects.get(room=room)
+
                                 date_entry, _ = DateEntry.objects.get_or_create(
                                     calendar=calendar,
                                     date=room_detail.date
@@ -76,39 +80,59 @@ class ReservationStatusLogAdmin(admin.ModelAdmin):
                                     event=event
                                 )
 
+                            ApprovalAudit.objects.create(
+                                reservation=reservation,
+                                admin=request.user,
+                                status_choice='A',
+                                timestamp=timezone.now()
+                            )
+
+                            # Deny conflicting pending reservations
+                            room_detail = reservation.reservation_room_details
+                            rivals = get_conflicting_pending_reservations(
+                                room=room_detail.room,
+                                date=room_detail.date,
+                                start=room_detail.start_time,
+                                end=room_detail.end_time,
+                                exclude_reservation_id=reservation.pk
+                            )
+
+                            for rival in rivals:
+                                status_log = ReservationStatusLog.objects.create(
+                                    status='D',
+                                    admin_in_charge=request.user,
+                                    time_stamp=timezone.now()
+                                )
+                                rival.reservation_status_log = status_log
+                                rival.save()
+
                                 ApprovalAudit.objects.create(
-                                    reservation=obj.reservation_detail, 
+                                    reservation=rival,
                                     admin=request.user,
-                                    status_choice=obj.status,
+                                    status_choice='D',
                                     timestamp=timezone.now()
                                 )
 
-                                rivals = get_conflicting_pending_reservations(
-                                    room=room_detail.room,
-                                    date=room_detail.date,
-                                    start=room_detail.start_time,
-                                    end=room_detail.end_time,
-                                    exclude_reservation_id=reservation.pk
-                                )
+                        # === Case 2: Transition FROM 'A' to 'D' or 'P' ===
+                        elif original_obj.status == 'A':
+                            if hasattr(reservation, 'event'): #checks if reverse relationship with an event instance exists
+                                event = reservation.event
+                                # Delete TimeReserved linked to the event
+                                TimeReserved.objects.filter(event=event).delete()
+                                # Delete the Event itself
+                                event.delete()
 
-                                for rival in rivals:
-                                    status_log = ReservationStatusLog.objects.create(
-                                        status='D',
-                                        admin_in_charge=request.user,
-                                        time_stamp=timezone.now()
-                                    )
-                                    rival.reservation_status_log = status_log
-                                    rival.save()
+                            ApprovalAudit.objects.create(
+                                reservation=reservation,
+                                admin=request.user,
+                                status_choice=obj.status,
+                                timestamp=timezone.now()
+                            )
 
-                                    ApprovalAudit.objects.create(
-                                        reservation=rival, 
-                                        admin=request.user,
-                                        status_choice='D',
-                                        timestamp=timezone.now()
-                                    )
-                    except ReservationDetails.DoesNotExist:
-                        pass
+                except ReservationDetails.DoesNotExist:
+                    pass  # Silent fail if reservation was deleted
 
         super().save_model(request, obj, form, change)
+
 
 admin.site.register(ReservationStatusLog, ReservationStatusLogAdmin)
