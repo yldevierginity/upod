@@ -185,3 +185,5 @@ SOCIALACCOUNT_ADAPTER = 'upodusers.adapters.CustomSocialAccountAdapter'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_PASSWORD_RESET_DONE_REDIRECT_URL = ""
 ACCOUNT_PASSWORD_RESET_CONFIRM_REDIRECT_URL = ""
+
+AUTH_USER_MODEL = 'dashboard.CustomUser'

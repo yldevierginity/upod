@@ -1,8 +1,8 @@
 import os
 from django.utils.timezone import now
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError #for the FileField part of ReservationRoomDetails
+from django.conf import settings
 
 #Imports to be added when existent
 
@@ -93,7 +93,7 @@ class ReservationStatusLog(models.Model):
     ]
 
     # admin_in_charge = models.OneToOneField('admin', on_delete=models.SET_NULL, null=True, blank=True) # commented this out for testing purposes, will use integer field for now
-    admin_in_charge = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    admin_in_charge = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     time_stamp = models.DateTimeField(null=True, blank=True)
 
@@ -102,7 +102,7 @@ class ReservationStatusLog(models.Model):
 
 #Reservation_Details
 class ReservationDetails(models.Model):
-    organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reservations", null=False, blank=False)
+    organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reservations", null=False, blank=False)
     reservation_room_details = models.OneToOneField('ReservationRoomDetails', on_delete=models.CASCADE, related_name="reservation_detail")
     reservation_status_log = models.OneToOneField('ReservationStatusLog', on_delete=models.CASCADE, related_name="reservation_detail")
 
