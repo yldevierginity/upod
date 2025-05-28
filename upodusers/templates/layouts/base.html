@@ -1,0 +1,56 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <!-- Title Block -->
+      <title>{% block head_title %}{% endblock head_title %}</title>
+
+      <!-- Fonts and Icons -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+      <!-- CSS Stylesheets -->
+      {% block page_css %} {% endblock page_css %}
+
+      {% block extra_head %}{% endblock extra_head %}
+
+      <script src="https://unpkg.com/htmx.org@2.0.4" 
+      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" 
+      crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+        <div class="ilc_logo">
+            <img src="{% static 'upodusers/images/ilc_logo.png' %}" alt="ILC Logo">
+        </div>
+        <h1>UP Mindanao Interactive Learning Center</h1>
+    </div>
+
+      {% block body %}
+          {% block content %}{% endblock content %}
+      {% endblock body %}
+
+    <!-- Footer -->
+    <div class="footer">
+        <h1>Contact Us</h1>
+        <a href="https://www.facebook.com/ilclrcupmindanao" target="_blank">
+            <i class="fa-brands fa-facebook"></i> Connect with us on Facebook
+        </a> 
+        <a href="https://mail.google.com/" target="_blank">
+            <i class="fa fa-envelope"></i> ilc.upmindanao@up.edu.ph
+        </a>
+    </div>
+
+      <!-- Scripts -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+      {% block extra_body %}
+          {{ block.super }}
+      {% endblock extra_body %}
+  </body>
+</html>
+

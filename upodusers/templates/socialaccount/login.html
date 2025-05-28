@@ -1,0 +1,49 @@
+{% extends "socialaccount/base_entrance.html" %}
+{% load static %}
+{% load i18n %}
+{% load allauth %}
+
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+
+{% block page_css %}
+  <link rel="stylesheet" href="{% static 'upodusers/css/socacc.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+{% endblock page_css %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center vh-100 bg-light">
+  <div class="container text-center p-4 bg-white rounded shadow" style="max-width: 400px;">
+    {% if process == "connect" %}
+      <h1 class="mb-3">
+        {% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}
+      </h1>
+      <p class="mb-4">
+        {% blocktrans with provider.name as provider %}
+          You are about to connect a new third-party account from {{ provider }}.
+        {% endblocktrans %}
+      </p>
+    {% else %}
+      <h1 class="mb-3">
+        {% blocktrans with provider.name as provider %}Sign in Via {{ provider }}{% endblocktrans %}
+      </h1>
+      <p class="mb-4">
+        {% blocktrans with provider.name as provider %}
+          You are about to sign-in using a third-party account from {{ provider }}.
+        {% endblocktrans %}
+      </p>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="container btn btn-primary w-10">
+        <button type="submit" class="sign-in_button">
+          {% trans "CONTINUE" %}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}
+

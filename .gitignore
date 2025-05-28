@@ -1,2 +1,14 @@
-.env
+# Python Files
+*.pyc
+*.pyo
+*.pyd
 **/__pycache__/
+
+# Django Files
+db.sqlite3
+*.log
+*.pot
+
+# Local Settings
+.env
+prodfiles/

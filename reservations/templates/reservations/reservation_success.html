@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Successful</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'reservations/css/reservation-success.css' %}">
+</head>
+<body>
+
+    <fieldset>
+        <h1>Reservation Successful</h1>
+
+        <div class="container">
+            <div class="left">
+                {% if room_details.cover_image %}
+                    <img src="{{ room_details.cover_image.url }}" alt="Cover Page" style="max-width: 100%; height: auto;">
+                {% endif %}
+            </div>
+            <div class="right">
+                <p><strong>Organizer:</strong> {{ reservation_details.organizer.first_name }} {{ reservation_details.organizer.last_name }} </p>
+                <p><strong>Event Venue:</strong> {{ room_details.room }}</p>
+                <p><strong>Starting time:</strong> {{ room_details.start_time }}</p>
+                <p><strong>Ending time:</strong> {{ room_details.end_time }}</p>
+                <p><strong>Date:</strong> {{ room_details.date }}</p>
+                <p><strong>Event Name:</strong> {{ room_details.event_name }}</p>
+                <p><strong>Letter of Endorsement:</strong> <a href="{{ room_details.letter_of_endorsement.url }}" target="_blank">View PDF</a></p>
+                <p><strong>Event Description:</strong> {{ room_details.event_description }}</p>
+            </div>
+        </div>
+
+        
+
+        
+        
+        <h3>Attendee List (Current):</h3>
+        <p><strong>Attendee List ID:</strong> {{ room_details.attendee_list.id }}</p>
+        <ul>
+            {% for attendee in attendees %}
+                <li>{{ attendee.first_name }} {{ attendee.last_name }} ({{ attendee.email }}) </li>  <!-- Assuming each attendee has a 'user' field -->
+            {% empty %}
+                <li>No attendees yet</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Reservation Status:</h3>
+            {% if status_log %}
+        <p><strong>Status:</strong> {{ status_log.status }}</p>
+        {% else %}
+        <p>No status log found.</p>
+        {% endif %}
+        <p>Thank you for your reservation!</p>
+    </fieldset>
+
+<!-- ======================================================================================================================================== -->
+{% comment %} <p><strong>All Attendee Lists and their Attendees:</strong></p>
+{% for list_data in attendeees_per_attendee %}
+    <h3>Attendee List ID: {{ list_data.attendee_list_id }}</h3>
+    {% if list_data.attendees %}
+        <ul>
+            {% for attendee in list_data.attendees %}
+                <li>Attendee ID: {{ attendee.attendee_id }}, User: {{ attendee.user }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No attendees in this list.</p>
+    {% endif %}
+{% endfor %} {% endcomment %}
+
+
+
+<!-- Add a button that links back to the reservation creation page -->
+<a href="{% url 'create_reservation' room_id=room_details.room.id %}">
+    <button type="button">Go Back to Reservation</button>
+</a>
+
+</body>
+</html>
