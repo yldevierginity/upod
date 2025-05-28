@@ -44,12 +44,16 @@
     <h1>User Profile</h1>
 
     <!-- Profile Image with Upload -->
+     {% if profile_picture_url %}
     <div class="profile-img-container">
-      <img id="profileImage" src="" alt="Profile Picture">
-      <span id="profileInitials">KLD</span>
+      <img id="profileImage" src="{{ user.profile_picture_url }}" alt="Profile Picture">
+    
+      <span id="profileInitials">AS</span>
+      
       <input type="file" id="uploadImage" accept="image/*">
       <div class="edit-label">Edit</div>
     </div>
+    {% endif %}
     
     <!-- Profile Information -->
     <div class="info-grid">
@@ -70,8 +74,24 @@
 
       <div class="info-group">
         <label>Course and Year</label>
-        <div class="info-box">BS Computer Science, 3rd Year</div>
+        <div class="info-box"> {{ user.course_year }} </div>
       </div>
+    </div>
+
+    <div class="section">
+      <h2>Update Info</h2>
+      <form method="POST" action="{% url 'dashboard:profile_update' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="info-group">
+          <label for="inputOne">Student ID</label>
+          <input type="text" id="inputOne" name="studentID" value="{{student_id}}" required />
+        </div>
+        <div class="info-group">
+          <label for="inputTwo">Degree Program & Year</label>
+          <input type="text" id="inputTwo" name="degprog" value="{{ degree_program_year }}" required />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
 
     <!-- Notes Section -->

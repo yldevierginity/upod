@@ -42,5 +42,29 @@ def about_us(request):
 def profile(request):
     user = request.user
     if user.is_authenticated:
-        return render(request, 'dashboard/profile.html')
+        profile_picture_url = user.profile_picture.url if user.profile_picture else None
+        return render(request, 'dashboard/profile.html', {
+            'user': user,
+        })
     return redirect(settings.ACCOUNT_LOGOUT_REDIRECT_URL)
+
+@login_required
+def profile_update(request):
+    user = request.user
+    if user.is_authenticated:
+        if request.method == 'POST':
+            student_id = request.POST.get('studentID')
+            course_year = request.POST.get('degprog')
+
+            user.studentID = student_id
+            user.course_year = course_year
+            user.save()
+
+            return redirect('dashboard:profile')
+
+        context = {
+            'student_id': user.studentID,
+            'degree_program_year': user.course_year,
+        }
+    return render(request, 'dashboard/profile.html', context)
+
