@@ -5,7 +5,8 @@ from .models import (
 from django.forms.widgets import DateInput, TimeInput
 from django.forms import BaseInlineFormSet
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from rooms.utils import time_conflict
 
 #The relatively 'normal' forms
